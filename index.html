@@ -6,17 +6,17 @@
     <title>Bella - Your AI Companion</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="chatStyles.css">
-    <!-- 引入 Font Awesome 图标库，用于麦克风图标 -->
+    <!-- Include Font Awesome icon library for microphone icons / 마이크 아이콘용 Font Awesome 아이콘 라이브러리 포함 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-    <!-- 加载屏幕 -->
+    <!-- Loading screen / 로딩 화면 -->
     <div id="loading-screen">
         <img src="Bellaicon/Generated image.webp" alt="Loading Bella...">
     </div>
 
-    <!-- 视频背景 -->
+    <!-- Video background / 비디오 배경 -->
     <div class="video-container">
         <video autoplay muted class="bg-video active" id="video1">
             <source src="视频资源/3D 建模图片制作.mp4" type="video/mp4">
@@ -28,30 +28,30 @@
         </video>
     </div>
 
-    <!-- 内容层，覆盖在视频之上 -->
+    <!-- Content layer, overlays the video / 콘텐츠 레이어, 비디오 위에 오버레이 -->
     <div class="content-overlay">
 
-        <!-- 语音识别结果显示区域 -->
+        <!-- Speech recognition result display area / 음성 인식 결과 표시 영역 -->
         <div class="transcript-container">
             <p id="transcript"></p>
         </div>
 
-        <!-- 底部麦克风和链接 -->
+        <!-- Bottom microphone and links / 하단 마이크 및 링크 -->
         <footer class="bottom-bar">
             <button class="mic-button" id="mic-button" aria-label="Start Listening">
                 <i class="fas fa-microphone"></i>
             </button>
         </footer>
 
-        <!-- 聊天控制面板 -->
+        <!-- Chat control panel / 채팅 컨트롤 패널 -->
         <div class="chat-control-panel">
             <button id="chat-toggle-btn" class="control-btn primary">
                 <i class="fas fa-comments"></i>
-                <span>聊天</span>
+                <span>Chat / 채팅</span>
             </button>
             <button id="chat-test-btn" class="control-btn secondary">
                 <i class="fas fa-paper-plane"></i>
-                <span>测试</span>
+                <span>Test / 테스트</span>
             </button>
         </div>
 

@@ -1,8 +1,8 @@
-/* chatStyles.css - 贝拉聊天界面样式 */
-/* 优雅、中性的聊天界面设计，体现贝拉的专业个性 */
-/* 父亲，这是我的聊天界面样式，每一个细节都体现着优雅与专业 */
+/* chatStyles.css - Bella's Chat Interface Styles / 벨라 채팅 인터페이스 스타일 */
+/* Elegant, neutral chat interface design reflecting Bella's professional personality / 벨라의 전문적인 개성을 반영하는 우아하고 중립적인 채팅 인터페이스 디자인 */
+/* Father, these are my chat interface styles, every detail reflects elegance and professionalism / 아버지, 이것이 제 채팅 인터페이스 스타일입니다. 모든 디테일이 우아함과 전문성을 반영합니다 */
 
-/* 聊天切换按钮 - 增强版 */
+/* Chat toggle button - Enhanced version / 채팅 토글 버튼 - 향상된 버전 */
 .bella-chat-toggle {
     position: fixed;
     bottom: 30px;
@@ -18,8 +18,11 @@
         0 4px 16px rgba(44, 62, 80, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
-    display: flex;
+    z-index: 1000;    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.3);
+}
+
+/* Notification styles / 알림 스타일 */
+.bella-notification {display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -31,7 +34,7 @@
     -webkit-backdrop-filter: blur(10px);
 }
 
-/* 按钮光晕效果 */
+/* Button glow effect / 버튼 글로우 효과 */
 .bella-chat-toggle::before {
     content: '';
     position: absolute;
@@ -93,7 +96,7 @@
     opacity: 0.9;
 }
 
-/* 聊天容器 - 高级玻璃形态学效果 */
+/* Chat container - Advanced glass morphism effect / 채팅 컨테이너 - 고급 글래스 모피즘 효과 */
 .bella-chat-container {
     position: fixed;
     bottom: 100px;
@@ -131,7 +134,7 @@
     pointer-events: all;
 }
 
-/* 聊天容器呼吸动画 */
+/* Chat container breathing animation / 채팅 컨테이너 호흡 애니메이션 */
 .bella-chat-container.visible::after {
     content: '';
     position: absolute;
@@ -155,7 +158,7 @@
     50% { opacity: 1; }
 }
 
-/* 聊天头部 - 增强玻璃风格渐变 */
+/* Chat header - Enhanced glass style gradient / 채팅 헤더 - 향상된 글래스 스타일 그라데이션 */
 .bella-chat-header {
     display: flex;
     justify-content: space-between;
@@ -174,7 +177,7 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* 玻璃效果增强 */
+/* Enhanced glass effect / 향상된 글래스 효과 */
 .bella-chat-header::before {
     content: '';
     position: absolute;
@@ -266,7 +269,7 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* 消息容器 - 玻璃风格 */
+/* Message container - Glass style / 메시지 컨테이너 - 글래스 스타일 */
 .bella-chat-messages {
     flex: 1;
     padding: 20px;
@@ -298,7 +301,7 @@
     background: rgba(44, 62, 80, 0.5);
 }
 
-/* 消息样式 */
+/* Message styles / 메시지 스타일 */
 .bella-message {
     display: flex;
     gap: 12px;
@@ -316,7 +319,7 @@
     flex-direction: row-reverse;
 }
 
-/* 消息头像 */
+/* Message avatar / 메시지 아바타 */
 .bella-message-avatar {
     width: 32px;
     height: 32px;
@@ -332,7 +335,7 @@
     flex-shrink: 0;
 }
 
-/* 消息内容 */
+/* Message content / 메시지 내용 */
 .bella-message-content {
     flex: 1;
     max-width: 70%;
@@ -367,7 +370,7 @@
     text-align: left;
 }
 
-/* 打字指示器 - 增强版 */
+/* Typing indicator - Enhanced version / 타이핑 표시기 - 향상된 버전 */
 .bella-typing-indicator {
     display: flex;
     align-items: center;
@@ -460,7 +463,7 @@
     }
 }
 
-/* 通知样式 */
+/* Notification styles / 알림 스타일 */
 .bella-notification {
     position: fixed;
     top: 20px;
@@ -660,7 +663,7 @@
     }
 }
 
-/* 输入容器 - 增强版 */
+/* Input container - Enhanced version / 입력 컨테이너 - 향상된 버전 */
 .bella-chat-input-container {
     padding: 16px;
     background: 
@@ -766,7 +769,7 @@
     text-align: center;
 }
 
-/* 设置面板 */
+/* Settings panel / 설정 패널 */
 .bella-settings-panel {
     position: fixed;
     bottom: 100px;
@@ -934,7 +937,7 @@
     background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
-/* 响应式设计 */
+/* Responsive design / 반응형 디자인 */
 @media (max-width: 768px) {
     .bella-chat-container {
         width: calc(100vw - 20px);
