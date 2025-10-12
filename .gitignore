@@ -1,6 +1,10 @@
 # Dependencies
 /node_modules
 
+# Environment variables and API Keys
+.env
+*.key
+
 # IDEs and editors
 .idea/
 .vscode/
@@ -11,3 +15,11 @@
 ._*
 .Spotlight-V100
 .Trashes
+
+# Backup files
+*.bak
+*_old.js
+
+# Logs
+*.log
+npm-debug.log*

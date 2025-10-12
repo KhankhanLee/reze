@@ -1,16 +1,26 @@
 // cloudAPI.js - Bella's Cloud AI Service Module
 // This module is responsible for communicating with various cloud-based AI model APIs to provide Bella with enhanced thinking capabilities
 
+import config from './config.js';
+
 class CloudAPIService {
     constructor() {
         this.apiConfigs = {
+            gemini: {
+                baseURL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+                model: 'gemini-1.5-pro',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                apiKey: '' // Will be loaded from config
+            },
             // OpenAI GPT-3.5/4 configuration
             openai: {
                 baseURL: 'https://api.openai.com/v1/chat/completions',
                 model: 'gpt-3.5-turbo',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer YOUR_OPENAI_API_KEY'
+                    'Authorization': ''
                 }
             },
             // Alibaba Cloud Qwen configuration
@@ -19,7 +29,7 @@ class CloudAPIService {
                 model: 'qwen-turbo',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer YOUR_QWEN_API_KEY'
+                    'Authorization': ''
                 }
             },
             // Baidu ERNIE Bot configuration
@@ -28,7 +38,8 @@ class CloudAPIService {
                 model: 'ERNIE-Bot-turbo',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                accessToken: ''
             },
             // Zhipu AI GLM configuration
             glm: {
@@ -36,27 +47,67 @@ class CloudAPIService {
                 model: 'glm-3-turbo',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer YOUR_GLM_API_KEY'
+                    'Authorization': ''
                 }
             }
         };
         
-        this.currentProvider = 'openai'; // Default to using OpenAI
+        this.currentProvider = 'gemini'; // Default to using Gemini
         this.conversationHistory = [];
         this.maxHistoryLength = 10; // Keep the most recent 10 conversation turns
+        
+        // Load API keys from config / config에서 API 키 로드
+        this.loadAPIKeysFromConfig();
     }
 
-    // Set API key
-    setAPIKey(provider, apiKey) {
-        if (this.apiConfigs[provider]) {
-            if (provider === 'openai' || provider === 'qwen' || provider === 'glm') {
-                this.apiConfigs[provider].headers['Authorization'] = `Bearer ${apiKey}`;
-            } else if (provider === 'ernie') {
-                this.apiConfigs[provider].accessToken = apiKey;
-            }
-            return true;
+    // Load API keys from config / config에서 API 키 로드
+    loadAPIKeysFromConfig() {
+        const googleApiKey = config.getAPIKey('GOOGLE_API_KEY');
+        if (googleApiKey) {
+            this.apiConfigs.gemini.apiKey = googleApiKey;
         }
-        return false;
+        
+        const openaiApiKey = config.getAPIKey('OPENAI_API_KEY');
+        if (openaiApiKey) {
+            this.apiConfigs.openai.headers['Authorization'] = `Bearer ${openaiApiKey}`;
+        }
+        
+        const qwenApiKey = config.getAPIKey('QWEN_API_KEY');
+        if (qwenApiKey) {
+            this.apiConfigs.qwen.headers['Authorization'] = `Bearer ${qwenApiKey}`;
+        }
+        
+        const ernieToken = config.getAPIKey('ERNIE_ACCESS_TOKEN');
+        if (ernieToken) {
+            this.apiConfigs.ernie.accessToken = ernieToken;
+        }
+        
+        const glmApiKey = config.getAPIKey('GLM_API_KEY');
+        if (glmApiKey) {
+            this.apiConfigs.glm.headers['Authorization'] = `Bearer ${glmApiKey}`;
+        }
+    }
+
+    // Set API key / API 키 설정
+    setAPIKey(provider, apiKey) {
+        // Save to config first / 먼저 config에 저장
+        config.setAPIKey(provider, apiKey);
+        
+        // Then update local configuration / 그런 다음 로컬 설정 업데이트
+        if (provider === 'gemini') {
+            this.apiConfigs.gemini.apiKey = apiKey;
+        } else if (provider === 'openai') {
+            this.apiConfigs.openai.headers['Authorization'] = `Bearer ${apiKey}`;
+        } else if (provider === 'qwen') {
+            this.apiConfigs.qwen.headers['Authorization'] = `Bearer ${apiKey}`;
+        } else if (provider === 'ernie') {
+            this.apiConfigs.ernie.accessToken = apiKey;
+        } else if (provider === 'glm') {
+            this.apiConfigs.glm.headers['Authorization'] = `Bearer ${apiKey}`;
+        } else {
+            return false;
+        }
+        return true;
     }
 
     // Switch AI service provider
@@ -123,6 +174,9 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             let response;
             
             switch (this.currentProvider) {
+                case 'gemini':
+                    response = await this.callGemini(userMessage);
+                    break;
                 case 'openai':
                     response = await this.callOpenAI(userMessage);
                     break;
@@ -147,6 +201,65 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             console.error(`Cloud API call failed (${this.currentProvider}):`, error);
             throw error;
         }
+    }
+
+    // Google Gemini API call / Google Gemini API 호출
+    async callGemini(userMessage) {
+        const config = this.apiConfigs.gemini;
+        
+        if (!config.apiKey) {
+            throw new Error('Gemini API key not configured');
+        }
+
+        // Build conversation history for Gemini / Gemini용 대화 히스토리 구축
+        const systemPrompt = this.getBellaSystemPrompt();
+        const contents = [
+            {
+                role: 'user',
+                parts: [{ text: systemPrompt.content }]
+            },
+            {
+                role: 'model',
+                parts: [{ text: 'I understand. I am Bella, and I will respond with warmth, intelligence, and personality.' }]
+            }
+        ];
+
+        // Add conversation history / 대화 히스토리 추가
+        this.conversationHistory.forEach(msg => {
+            contents.push({
+                role: msg.role === 'user' ? 'user' : 'model',
+                parts: [{ text: msg.content }]
+            });
+        });
+
+        const url = `${config.baseURL}?key=${config.apiKey}`;
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: config.headers,
+            body: JSON.stringify({
+                contents: contents,
+                generationConfig: {
+                    temperature: 0.75,
+                    topK: 40,
+                    topP: 0.92,
+                    maxOutputTokens: 250,
+                }
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.text();
+            throw new Error(`Gemini API error: ${response.status} ${response.statusText} - ${errorData}`);
+        }
+
+        const data = await response.json();
+        
+        if (!data.candidates || data.candidates.length === 0) {
+            throw new Error('No response generated from Gemini API');
+        }
+        
+        return data.candidates[0].content.parts[0].text.trim();
     }
 
     // OpenAI API call, optimized parameters for more natural, personalized responses
@@ -289,18 +402,25 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         };
     }
 
-    // Check if API configuration is complete
+    // Check if API configuration is complete / API 설정 완료 여부 확인
     isConfigured(provider = this.currentProvider) {
-        const config = this.apiConfigs[provider];
-        if (!config) return false;
+        const providerConfig = this.apiConfigs[provider];
+        if (!providerConfig) return false;
         
-        if (provider === 'ernie') {
-            return !!config.accessToken;
-        } else {
-            return config.headers['Authorization'] && 
-                   config.headers['Authorization'] !== 'Bearer YOUR_OPENAI_API_KEY' &&
-                   config.headers['Authorization'] !== 'Bearer YOUR_QWEN_API_KEY' &&
-                   config.headers['Authorization'] !== 'Bearer YOUR_GLM_API_KEY';
+        // Check configuration for each provider / 각 제공자별 설정 확인
+        switch (provider) {
+            case 'gemini':
+                return !!providerConfig.apiKey && providerConfig.apiKey !== '';
+            case 'ernie':
+                return !!providerConfig.accessToken && providerConfig.accessToken !== '';
+            case 'openai':
+            case 'qwen':
+            case 'glm':
+                return !!providerConfig.headers['Authorization'] && 
+                       providerConfig.headers['Authorization'] !== '' &&
+                       providerConfig.headers['Authorization'] !== 'Bearer ';
+            default:
+                return false;
         }
     }
 }
