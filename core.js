@@ -1,9 +1,10 @@
 // core.js - Reze's Brain (v3)
 // Reze's core AI logic - Chainsaw Man's Bomb Devil with a mysterious cafe girl charm
-// Supports hybrid architecture of local models and cloud APIs
+// Supports hybrid architecture: Ollama (local) + Cloud APIs
 
 import { pipeline, env, AutoTokenizer, AutoModelForSpeechSeq2Seq } from './vendor/transformers.js';
 import CloudAPIService from './cloudAPI.js';
+import OllamaAPI from './ollamaAPI.js';
 
 // Local model configuration
 env.allowLocalModels = true;
@@ -26,21 +27,44 @@ class RezeAI {
 
     constructor() {
         this.cloudAPI = new CloudAPIService();
-        this.useCloudAPI = false; // Default to using local model
+        this.ollamaAPI = new OllamaAPI();
+        this.useCloudAPI = false; // Default to local (Ollama or transformers.js)
+        this.useOllama = false; // Will be set to true if Ollama is available
         this.currentMode = 'casual'; // Chat modes: casual, assistant, creative
     }
 
     async init() {
         console.log('Initializing Reze\'s core AI...');
         
+        // Priority 1: Check if Ollama is available (best local option)
+        console.log('Checking for Ollama...');
+        this.useOllama = await this.ollamaAPI.isAvailable();
+        
+        if (this.useOllama) {
+            console.log('✓ Ollama is available! Using Ollama for local inference.');
+            const models = await this.ollamaAPI.getInstalledModels();
+            if (models.length > 0) {
+                console.log('Available Ollama models:', models.map(m => m.name).join(', '));
+            } else {
+                console.log('⚠️  No Ollama models installed. Please run: ollama pull llama3.2:1b');
+            }
+        } else {
+            console.log('Ollama not available. Falling back to transformers.js...');
+        }
+        
+        // Priority 2: Load transformers.js models as fallback (if Ollama not available)
+        
+        // Priority 2: Load transformers.js models as fallback (if Ollama not available)
         // Priority loading of LLM model (chat functionality)
-        try {
-            console.log('Loading LLM model (LaMini-Flan-T5-77M with optimized prompts)...');
-            this.llm = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-77M');
-            console.log('✓ LLM model loaded successfully (LaMini with Reze personality).');
-        } catch (error) {
-            console.error('Failed to load LLM model:', error);
-            // LLM loading failure doesn't block initialization
+        if (!this.useOllama) {
+            try {
+                console.log('Loading LLM model (LaMini-Flan-T5-77M with optimized prompts)...');
+                this.llm = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-77M');
+                console.log('✓ LLM model loaded successfully (LaMini with Reze personality).');
+            } catch (error) {
+                console.error('Failed to load LLM model:', error);
+                // LLM loading failure doesn't block initialization
+            }
         }
         
         // Attempt to load ASR model (voice recognition)
@@ -72,24 +96,37 @@ class RezeAI {
 
     async think(prompt) {
         try {
-            // If cloud API is enabled and configured, use it as priority
+            // Priority 1: Cloud API (if enabled and configured)
             if (this.useCloudAPI && this.cloudAPI.isConfigured()) {
                 return await this.thinkWithCloudAPI(prompt);
             }
             
-            // Otherwise use local model
+            // Priority 2: Ollama (if available)
+            if (this.useOllama) {
+                return await this.thinkWithOllama(prompt);
+            }
+            
+            // Priority 3: Transformers.js fallback
             return await this.thinkWithLocalModel(prompt);
             
         } catch (error) {
             console.error('Error during thinking process:', error);
             
-            // If cloud API fails, try falling back to local model
+            // Fallback chain: Cloud → Ollama → Transformers.js
             if (this.useCloudAPI) {
-                console.log('Cloud API failed, falling back to local model...');
+                console.log('Cloud API failed, trying Ollama...');
+                try {
+                    if (this.useOllama) {
+                        return await this.thinkWithOllama(prompt);
+                    }
+                } catch (ollamaError) {
+                    console.log('Ollama failed, trying transformers.js...');
+                }
+                
                 try {
                     return await this.thinkWithLocalModel(prompt);
                 } catch (localError) {
-                    console.error('Local model also failed:', localError);
+                    console.error('All methods failed:', localError);
                 }
             }
             
@@ -101,6 +138,17 @@ class RezeAI {
     async thinkWithCloudAPI(prompt) {
         const enhancedPrompt = this.enhancePromptForMode(prompt);
         return await this.cloudAPI.chat(enhancedPrompt);
+    }
+
+    // Think using Ollama (local LLM server)
+    async thinkWithOllama(prompt) {
+        try {
+            const response = await this.ollamaAPI.chat(prompt);
+            return response;
+        } catch (error) {
+            console.error('Ollama error:', error);
+            throw error;
+        }
     }
 
     // Think using local model with optimized LLM parameters and processing
@@ -187,14 +235,43 @@ class RezeAI {
     switchProvider(provider) {
         if (provider === 'local') {
             this.useCloudAPI = false;
+            // Prefer Ollama if available, otherwise use transformers.js
+            console.log(`Switched to local mode (${this.useOllama ? 'Ollama' : 'Transformers.js'})`);
             return true;
+        } else if (provider === 'ollama') {
+            this.useCloudAPI = false;
+            if (this.useOllama) {
+                console.log('Switched to Ollama');
+                return true;
+            } else {
+                console.warn('Ollama is not available');
+                return false;
+            }
         } else {
             const success = this.cloudAPI.switchProvider(provider);
             if (success) {
                 this.useCloudAPI = true;
+                console.log(`Switched to cloud provider: ${provider}`);
             }
             return success;
         }
+    }
+
+    // Set Ollama model
+    setOllamaModel(modelName) {
+        if (this.useOllama) {
+            this.ollamaAPI.setModel(modelName);
+            return true;
+        }
+        return false;
+    }
+
+    // Get available Ollama models
+    async getOllamaModels() {
+        if (this.useOllama) {
+            return await this.ollamaAPI.getInstalledModels();
+        }
+        return [];
     }
 
     // Set API key

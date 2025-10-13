@@ -29,9 +29,10 @@ Reze is an AI companion project inspired by the mysterious and charming characte
 ## ✨ 주요 기능 | Key Features
 
 ### 🤖 하이브리드 AI 시스템 | Hybrid AI System
-- **로컬 모델 | Local Model**: LaMini-Flan-T5-77M으로 완전한 오프라인 실행 가능
+- **Ollama 지원 | Ollama Support**: Llama 3.2, Qwen2.5 등 강력한 로컬 LLM (추천!)
+- **Transformers.js 폴백 | Fallback**: LaMini-Flan-T5-77M으로 오프라인 실행 가능
 - **클라우드 API | Cloud API**: Google Gemini 2.0 Flash로 더욱 자연스러운 대화
-- **자동 폴백 | Auto Fallback**: 클라우드 실패 시 로컬 모델로 자동 전환
+- **스마트 폴백 | Smart Fallback**: 클라우드 → Ollama → Transformers.js 자동 전환
 
 ### 🎭 레제 페르소나 | Reze Persona
 - 체인소맨의 레제 캐릭터 기반 페르소나
@@ -61,9 +62,24 @@ cd reze
 # 의존성 설치 | Install dependencies
 npm install
 
-# AI 모델 다운로드 (약 7GB) | Download AI models (~7GB)
+# AI 모델 다운로드 (약 7GB, 선택사항) | Download AI models (~7GB, optional)
 npm run download
 ```
+
+### Ollama 설치 (추천!) | Ollama Setup (Recommended!)
+더 나은 로컬 대화를 위해 Ollama를 설치하세요:  
+For better local conversations, install Ollama:
+```bash
+# Ollama 설치 | Install Ollama
+brew install ollama
+
+# Ollama 서버 시작 | Start Ollama server
+ollama serve &
+
+# 추천 모델 다운로드 (1.3GB) | Download recommended model (1.3GB)
+ollama pull llama3.2:1b
+```
+📖 자세한 설명: [OLLAMA_GUIDE.md](./OLLAMA_GUIDE.md)
 
 ### API 키 설정 (선택사항) | API Key Setup (Optional)
 ```bash
