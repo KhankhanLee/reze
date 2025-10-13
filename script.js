@@ -1,5 +1,5 @@
-// Import BellaAI core module / BellaAI 핵심 모듈 가져오기
-import { BellaAI } from './core.js';
+// Import RezeAI core module / RezeAI 핵심 모듈 가져오기
+import { RezeAI } from './core.js';
 import { ChatInterface } from './chatInterface.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
     // --- AI Core Initialization ---
-    let bellaAI;
+    let rezeAI;
     let chatInterface;
     
     // First initialize chat interface (not dependent on AI) / 먼저 채팅 인터페이스 초기화 (AI에 의존하지 않음)
@@ -37,17 +37,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Then try to initialize AI core / 그런 다음 AI 코어 초기화 시도
     micButton.disabled = true;
-    transcriptDiv.textContent = 'Awakening Bella\'s core... / 벨라의 핵심을 깨우는 중...';
+    transcriptDiv.textContent = 'Awakening Reze\'s core... / Reze의 핵심을 깨우는 중...';
     try {
-        bellaAI = await BellaAI.getInstance();
-        console.log('Bella AI initialized successfully / Bella AI 초기화 성공');
+        rezeAI = await RezeAI.getInstance();
+        console.log('Reze AI initialized successfully / Reze AI 초기화 성공');
         
         // Set chat interface AI callback function / 채팅 인터페이스의 AI 콜백 함수 설정
         if (chatInterface) {
             chatInterface.onMessageSend = async (message) => {
                 try {
                     chatInterface.showTypingIndicator();
-                    const response = await bellaAI.think(message);
+                    const response = await rezeAI.think(message);
                     chatInterface.hideTypingIndicator();
                     chatInterface.addMessage('assistant', response);
                 } catch (error) {
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             transcriptContainer.textContent = `You: ${final_transcript || interim_transcript} / 당신: ${final_transcript || interim_transcript}`;
 
             // Once we have a final result, process it with the AI
-            if (final_transcript && bellaAI) {
+            if (final_transcript && rezeAI) {
                 const userText = final_transcript.trim();
                 transcriptContainer.textContent = `You: ${userText} / 당신: ${userText}`;
 
@@ -240,22 +240,22 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
 
                 try {
-                    // Let Bella think
+                    // Let Reze think
                     const thinkingText = document.createElement('p');
-                    thinkingText.textContent = 'Bella is thinking... / 벨라가 생각 중...';
+                    thinkingText.textContent = 'Reze is thinking... / Reze가 생각 중...';
                     thinkingText.style.color = '#888';
                     thinkingText.style.fontStyle = 'italic';
                     transcriptContainer.appendChild(thinkingText);
                     
-                    const response = await bellaAI.think(userText);
+                    const response = await rezeAI.think(userText);
                     
                     transcriptContainer.removeChild(thinkingText);
-                    const bellaText = document.createElement('p');
-                    bellaText.textContent = `Bella: ${response} / 벨라: ${response}`;
-                    bellaText.style.color = '#ff6b9d';
-                    bellaText.style.fontWeight = 'bold';
-                    bellaText.style.marginTop = '10px';
-                    transcriptContainer.appendChild(bellaText);
+                    const rezeText = document.createElement('p');
+                    rezeText.textContent = `Reze: ${response}`;
+                    rezeText.style.color = '#ff6b9d';
+                    rezeText.style.fontWeight = 'bold';
+                    rezeText.style.marginTop = '10px';
+                    transcriptContainer.appendChild(rezeText);
 
                     // If chat interface is open, also show in chat window / 채팅 인터페이스가 열려있으면 채팅 창에도 표시
                     if (chatInterface && chatInterface.getVisibility()) {
@@ -264,16 +264,16 @@ document.addEventListener('DOMContentLoaded', async function() {
 
                     // TTS function temporarily disabled, will be activated in next phase / TTS 기능 임시 비활성화, 다음 단계에서 활성화 예정
                     // TODO: Activate voice synthesis function / 음성 합성 기능 활성화
-                    // const audioData = await bellaAI.speak(response);
+                    // const audioData = await rezeAI.speak(response);
                     // const blob = new Blob([audioData], { type: 'audio/wav' });
                     // const audioUrl = URL.createObjectURL(blob);
                     // const audio = new Audio(audioUrl);
                     // audio.play();
 
                 } catch (error) {
-                    console.error('Bella AI processing error:', error);
+                    console.error('Reze AI processing error:', error);
                     const errorText = document.createElement('p');
-                    const errorMsg = 'Bella encountered a problem, but she\'s still learning... / 벨라가 문제를 겪었지만 여전히 배우고 있어요...';
+                    const errorMsg = 'Reze encountered a problem, but she\'s still learning...';
                     errorText.textContent = errorMsg;
                     errorText.style.color = '#ff9999';
                     transcriptContainer.appendChild(errorText);

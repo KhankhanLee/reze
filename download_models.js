@@ -13,6 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const models = {
     'Xenova/whisper-tiny': 'https://hf-mirror.com/Xenova/whisper-tiny',
     'Xenova/LaMini-Flan-T5-77M': 'https://hf-mirror.com/Xenova/LaMini-Flan-T5-77M',
+    'Xenova/Qwen2.5-0.5B-Instruct': 'https://hf-mirror.com/Xenova/Qwen2.5-0.5B-Instruct',  // Better model for natural conversation
     'Xenova/speecht5_tts': 'https://hf-mirror.com/Xenova/speecht5_tts',
 };
 

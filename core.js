@@ -1,5 +1,6 @@
-// core.js - Bella's Brain (v3)
-// Bella's core AI logic, supporting a hybrid architecture of local models and cloud APIs
+// core.js - Reze's Brain (v3)
+// Reze's core AI logic - Chainsaw Man's Bomb Devil with a mysterious cafe girl charm
+// Supports hybrid architecture of local models and cloud APIs
 
 import { pipeline, env, AutoTokenizer, AutoModelForSpeechSeq2Seq } from './vendor/transformers.js';
 import CloudAPIService from './cloudAPI.js';
@@ -12,12 +13,12 @@ env.backends.onnx.logLevel = 'verbose';
 env.localModelPath = './models/';
 
 
-class BellaAI {
+class RezeAI {
     static instance = null;
 
     static async getInstance() {
         if (this.instance === null) {
-            this.instance = new BellaAI();
+            this.instance = new RezeAI();
             await this.instance.init();
         }
         return this.instance;
@@ -30,13 +31,13 @@ class BellaAI {
     }
 
     async init() {
-        console.log('Initializing Bella\'s core AI...');
+        console.log('Initializing Reze\'s core AI...');
         
         // Priority loading of LLM model (chat functionality)
         try {
-            console.log('Loading LLM model...');
+            console.log('Loading LLM model (LaMini-Flan-T5-77M with optimized prompts)...');
             this.llm = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-77M');
-            console.log('LLM model loaded successfully.');
+            console.log('✓ LLM model loaded successfully (LaMini with Reze personality).');
         } catch (error) {
             console.error('Failed to load LLM model:', error);
             // LLM loading failure doesn't block initialization
@@ -45,7 +46,7 @@ class BellaAI {
         // Attempt to load ASR model (voice recognition)
         try {
             console.log('Loading ASR model...');
-            const modelPath = 'Xenova/whisper-asr';
+            const modelPath = 'Xenova/whisper-tiny';
             const tokenizer = await AutoTokenizer.from_pretrained(modelPath);
             const model = await AutoModelForSpeechSeq2Seq.from_pretrained(modelPath);
             this.asr = await pipeline('automatic-speech-recognition', model, { tokenizer });
@@ -66,7 +67,7 @@ class BellaAI {
         //     this.tts = null;
         // }
 
-        console.log('Bella\'s core AI initialized successfully.');
+        console.log('Reze\'s core AI initialized successfully.');
     }
 
     async think(prompt) {
@@ -105,42 +106,44 @@ class BellaAI {
     // Think using local model with optimized LLM parameters and processing
     async thinkWithLocalModel(prompt) {
         if (!this.llm) {
-            return "I'm still learning how to think. Please wait a moment...";
+            return "I'm still waking up... give me a moment.";
         }
         
-        const bellaPrompt = this.enhancePromptForMode(prompt, true);
+        const rezePrompt = this.enhancePromptForMode(prompt, true);
         
-        // Optimized LLM parameters for better responses
-        const result = await this.llm(bellaPrompt, {
-            max_new_tokens: 180,  // Increased token count for more complete responses
-            temperature: 0.7,     // Slightly lowered temperature for better consistency
-            top_k: 50,            // Increased top_k for more diverse vocabulary
-            top_p: 0.92,          // Added top_p parameter to optimize sampling
-            do_sample: true,      // Maintained sampling for creativity
-            repetition_penalty: 1.2, // Added repetition penalty to avoid repetitive content
+        // Optimized for LaMini-Flan-T5-77M - VERY SHORT responses work best
+        const result = await this.llm(rezePrompt, {
+            max_new_tokens: 50,   // SHORT responses only for this small model
+            temperature: 0.8,     // Higher temperature for personality
+            top_k: 40,            
+            top_p: 0.9,          
+            do_sample: true,      
+            repetition_penalty: 1.3, // Avoid repetition
         });
         
-        // Enhanced text cleaning and processing
+        // Enhanced text cleaning
         let response = result[0].generated_text;
         
-        // Remove prompt part
-        if (response.includes(bellaPrompt)) {
-            response = response.replace(bellaPrompt, '').trim();
+        // Remove prompt and common prefixes
+        response = response.replace(rezePrompt, '').trim();
+        response = response.replace(/^(Reze:|Response:|Answer:)/i, '').trim();
+        response = response.split('\n')[0]; // Take only first line
+        
+        // If response is empty or too short, use personality-appropriate fallback
+        if (!response || response.length < 3) {
+            const rezeBackups = [
+                "Hmm... interesting question.",
+                "Let me think about that...",
+                "That's... complicated.",
+                "Privet... what do you mean exactly?",
+                "Tell me more about that."
+            ];
+            return rezeBackups[Math.floor(Math.random() * rezeBackups.length)];
         }
         
-        // Remove possible "Bella's response:" prefixes
-        response = response.replace(/^(Bella's response:|Bella's professional response:|Bella's creative response:|Bella:)/i, '').trim();
-        
-        // If response is empty, provide backup responses
-        if (!response || response.length < 2) {
-            const backupResponses = [
-                "That's an interesting question. Let me think about it for a moment...",
-                "Good question! I need to organize my thoughts...",
-                "I have some ideas, but let me put them together more coherently...",
-                "This topic is fascinating. Let me consider how to respond...",
-                "I'm thinking about different angles to this question. Just a moment..."
-            ];
-            return backupResponses[Math.floor(Math.random() * backupResponses.length)];
+        // Limit length (small model tends to ramble)
+        if (response.length > 150) {
+            response = response.substring(0, 150).split(' ').slice(0, -1).join(' ') + '...';
         }
         
         return response;
@@ -148,54 +151,14 @@ class BellaAI {
 
     // Enhance prompts based on mode, using advanced LLM prompt engineering
     enhancePromptForMode(prompt, isLocal = false) {
-        const modePrompts = {
-            casual: isLocal ? 
-                `As Bella, a friendly AI assistant similar to Siri, respond to the user in a warm, conversational tone. Your response should:
-1. Be concise and helpful, like Siri's responses
-2. Use natural, flowing language with a touch of personality
-3. Be friendly but not overly emotional
-4. Maintain a helpful, slightly witty tone
-5. Sound intelligent and knowledgeable while remaining accessible
-
-User message: ${prompt}
-Bella's response:` :
-                `You are Bella, an AI assistant similar to Siri. Respond in a helpful, concise manner with a touch of personality. Keep your responses clear and direct, while maintaining a friendly tone. Avoid overly technical language unless necessary, and focus on providing value to the user.
-
-User message: ${prompt}
-Bella's response:`,
-            
-            assistant: isLocal ?
-                `As Bella, an intelligent AI assistant like Siri, provide accurate and helpful information. Your response should:
-1. Deliver clear, factual information and useful advice
-2. Organize content for easy understanding and application
-3. Maintain a professional yet approachable tone
-4. Use simple language when possible, technical terms only when necessary
-5. Demonstrate expertise while remaining accessible
-
-User question: ${prompt}
-Bella's professional response:` :
-                `You are Bella, a Siri-like AI assistant. Provide accurate, useful information and advice with a professional yet approachable tone. Organize your response clearly, avoid unnecessary technical language, and focus on being helpful and informative.
-
-User question: ${prompt}
-Bella's professional response:`,
-            
-            creative: isLocal ?
-                `As Bella, a creative AI assistant with Siri-like qualities, use your imagination to respond. Your response should:
-1. Present unique perspectives and creative thinking
-2. Use vivid, descriptive language
-3. Offer unexpected but interesting ideas
-4. Inspire the user's imagination
-5. Maintain a light, engaging tone
-
-User prompt: ${prompt}
-Bella's creative response:` :
-                `You are Bella, a creative AI assistant with Siri-like qualities. Provide interesting, unique responses using vivid language and creative thinking. Offer unexpected perspectives that inspire imagination while maintaining an engaging, helpful tone.
-
-User prompt: ${prompt}
-Bella's creative response:`
-        };
+        if (!isLocal) {
+            // Cloud API uses its own system prompt
+            return prompt;
+        }
         
-        return modePrompts[this.currentMode] || modePrompts.casual;
+        // Optimized for LaMini-Flan-T5-77M (small model, needs simple prompts)
+        // Keep it SHORT and DIRECT - this model works best with brief instructions
+        return `You are Reze, a mysterious Russian girl. Respond in 1 short sentence, be cool and slightly teasing. User asks: ${prompt}\nReze:`;
     }
 
     // Get error response
@@ -283,4 +246,4 @@ Bella's creative response:`
 }
 
 // ES6 module export
-export { BellaAI };
+export { RezeAI };
