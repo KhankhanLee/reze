@@ -245,6 +245,65 @@ graph TB
 - **감정 연결 | Emotional Connection**: 따뜻하고 배려하는 경험
 - **지속적 진화 | Continuous Evolution**: 점진적 기능 개선
 
+---
+
+## 🎓 고급 사용법 | Advanced Usage
+
+### 🚀 Google Colab에서 모델 학습
+
+**라즈베리파이나 저사양 기기에서 추론만 실행하고 싶다면?**
+
+1. **Google Colab에서 학습** (무료 GPU 사용!)
+   ```bash
+   # Colab에서 노트북 열기
+   https://colab.research.google.com/
+   
+   # OLLAMA_TRAINING.ipynb 업로드 후 실행
+   ```
+
+2. **학습된 모델을 라즈베리파이로 배포**
+   ```bash
+   # 맥에서 실행
+   ./deploy_to_raspberry.sh Modelfile.example
+   ```
+
+3. **라즈베리파이를 24/7 추론 서버로 활용**
+   - 전력 소모: ~5W
+   - 응답 속도: 3-5 tokens/초
+   - 메모리: 1.5GB (Llama 3.2 1B)
+
+자세한 내용은 [TRAINING_GUIDE.md](./TRAINING_GUIDE.md) 참고
+
+### 🥧 라즈베리파이 배포
+
+**라즈베리파이 4 (4GB RAM) 권장 설정:**
+
+```bash
+# 1. Arch Linux에 Ollama 설치
+yay -S ollama-bin
+sudo systemctl enable --now ollama
+
+# 2. 스왑 메모리 설정 (4GB)
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# 3. 모델 생성
+ollama create reze -f Modelfile.example
+
+# 4. 테스트
+ollama run reze "안녕 레제!"
+```
+
+**Mac/PC에서 라즈베리파이 Ollama 사용:**
+```javascript
+// ollamaAPI.js 수정
+constructor(baseURL = 'http://raspberrypi.local:11434/api') {
+    this.baseURL = baseURL;
+}
+```
+
 ### 기여 가이드 | Contribution Guidelines
 1. 저장소 Fork
 2. 기능 브랜치 생성 (`git checkout -b feature/AmazingFeature`)
