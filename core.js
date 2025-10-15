@@ -162,7 +162,7 @@ class RezeAI {
         // Optimized for LaMini-Flan-T5-77M - VERY SHORT responses work best
         const result = await this.llm(rezePrompt, {
             max_new_tokens: 50,   // SHORT responses only for this small model
-            temperature: 0.8,     // Higher temperature for personality
+            temperature: 0.7,     // Higher temperature for personality
             top_k: 40,            
             top_p: 0.9,          
             do_sample: true,      

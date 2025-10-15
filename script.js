@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     let activeVideo = video1;
     let inactiveVideo = video2;
 
-    // Video list / 비디오 목록
+    // Video list / 비디오 목록 //레제 얻고 수정해야함.
     const videoList = [
         '视频资源/3D 建模图片制作.mp4',
         '视频资源/jimeng-2025-07-16-1043-笑着优雅的左右摇晃，过一会儿手扶着下巴，保持微笑.mp4',

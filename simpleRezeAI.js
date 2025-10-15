@@ -1,12 +1,12 @@
-// simpleBellaAI.js - Simplified Bella AI, specifically for testing the chat interface
+// simpleRezeAI.js - Simplified Reze AI, specifically for testing the chat interface
 // Removed complex module dependencies, focusing on chat functionality
 
-class SimpleBellaAI {
+class SimpleRezeAI {
     static instance = null;
 
     static async getInstance() {
         if (this.instance === null) {
-            this.instance = new SimpleBellaAI();
+            this.instance = new SimpleRezeAI();
             await this.instance.init();
         }
         return this.instance;
@@ -19,20 +19,20 @@ class SimpleBellaAI {
 
     async init() {
         try {
-            console.log('Initializing simplified Bella AI...');
+            console.log('Initializing simplified Reze AI...');
             // Simulate initialization process
             await new Promise(resolve => setTimeout(resolve, 1000));
             this.isInitialized = true;
-            console.log('Simplified Bella AI initialization complete');
+            console.log('Simplified Reze AI initialization complete');
         } catch (error) {
-            console.error('Simplified Bella AI initialization failed:', error);
+            console.error('Simplified Reze AI initialization failed:', error);
             throw error;
         }
     }
 
     async think(prompt) {
         try {
-            console.log('Bella is thinking:', prompt);
+            console.log('Reze is thinking:', prompt);
             
             // Simulate thinking time
             await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
@@ -175,9 +175,9 @@ class SimpleBellaAI {
     }
 }
 
-// Expose SimpleBellaAI as a global variable
-window.SimpleBellaAI = SimpleBellaAI;
+// Expose SimpleRezeAI as a global variable
+window.SimpleRezeAI = SimpleRezeAI;
 // Also expose as BellaAI for compatibility
-window.BellaAI = SimpleBellaAI;
+window.RezeAI = SimpleRezeAI;
 
-console.log('SimpleBellaAI loaded successfully');
+console.log('SimpleRezeAI loaded successfully');

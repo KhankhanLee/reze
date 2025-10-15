@@ -1,5 +1,5 @@
-// chatInterface.js - Bella's Chat Interface Component
-// 벨라의 채팅 인터페이스 컴포넌트  
+// chatInterface.js - reze's Chat Interface Component
+// 레제의 채팅 인터페이스 컴포넌트  
 // This module is responsible for creating and managing the elegant chat interface, reflecting Bella's warm personality
 
 class ChatInterface {
@@ -32,44 +32,44 @@ class ChatInterface {
     createChatContainer() {
         // Main chat container / 메인 채팅 컨테이너
         this.chatContainer = document.createElement('div');
-        this.chatContainer.className = 'bella-chat-container';
+        this.chatContainer.className = 'reze-chat-container';
         this.chatContainer.innerHTML = `
-            <div class="bella-chat-header">
-                <div class="bella-chat-title">
-                    <div class="bella-avatar">💝</div>
-                    <div class="bella-title-text">
-                        <h3>Bella / 벨라</h3>
+            <div class="reze-chat-header">
+                <div class="reze-chat-title">
+                    <div class="reze-avatar">💝</div>
+                    <div class="reze-title-text">
+                        <h3>reze / 레제</h3>
                         <span class="bella-status">Online / 온라인</span>
                     </div>
                 </div>
-                <div class="bella-chat-controls">
-                    <button class="bella-settings-btn" title="Settings / 설정">
+                <div class="reze-chat-controls">
+                    <button class="reze-settings-btn" title="Settings / 설정">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <button class="bella-minimize-btn" title="Minimize / 최소화">
+                    <button class="reze-minimize-btn" title="Minimize / 최소화">
                         <i class="fas fa-minus"></i>
                     </button>
                 </div>
             </div>
-            <div class="bella-chat-messages"></div>
-            <div class="bella-chat-input-container">
-                <div class="bella-input-wrapper">
-                    <input type="text" class="bella-message-input" placeholder="Chat with Bella... / 벨라와 대화하기..." maxlength="500">
-                    <button class="bella-send-btn" title="Send / 전송">
+            <div class="reze-chat-messages"></div>
+            <div class="reze-chat-input-container">
+                <div class="reze-input-wrapper">
+                    <input type="text" class="reze-message-input" placeholder="Chat with reze... / 레제와 대화하기..." maxlength="500">
+                    <button class="reze-send-btn" title="Send / 전송">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
-                <div class="bella-input-hint">
+                <div class="reze-input-hint">
                     Press Enter to send, Shift + Enter for new line / Enter 전송, Shift + Enter 줄바꿈
                 </div>
             </div>
         `;
 
         // Get key element references / 주요 요소 참조 가져오기
-        this.messageContainer = this.chatContainer.querySelector('.bella-chat-messages');
-        this.inputContainer = this.chatContainer.querySelector('.bella-chat-input-container');
-        this.messageInput = this.chatContainer.querySelector('.bella-message-input');
-        this.sendButton = this.chatContainer.querySelector('.bella-send-btn');
+        this.messageContainer = this.chatContainer.querySelector('.reze-chat-messages');
+        this.inputContainer = this.chatContainer.querySelector('.reze-chat-input-container');
+        this.messageInput = this.chatContainer.querySelector('.reze-message-input');
+        this.sendButton = this.chatContainer.querySelector('.reze-send-btn');
         
         document.body.appendChild(this.chatContainer);
     }
@@ -77,12 +77,12 @@ class ChatInterface {
     // Create toggle button / 토글 버튼 생성
     createToggleButton() {
         this.toggleButton = document.createElement('button');
-        this.toggleButton.className = 'bella-chat-toggle';
+        this.toggleButton.className = 'reze-chat-toggle';
         this.toggleButton.innerHTML = `
-            <div class="bella-toggle-icon">
+            <div class="reze-toggle-icon">
                 <i class="fas fa-comments"></i>
             </div>
-            <div class="bella-toggle-text">Chat with Bella / 벨라와 채팅</div>
+            <div class="reze-toggle-text">Chat with Bella / 레제와 채팅</div>
         `;
         this.toggleButton.title = 'Open chat window / 채팅 창 열기';
         
@@ -92,18 +92,18 @@ class ChatInterface {
     // Create settings panel / 설정 패널 생성
     createSettingsPanel() {
         this.settingsPanel = document.createElement('div');
-        this.settingsPanel.className = 'bella-settings-panel';
+        this.settingsPanel.className = 'reze-settings-panel';
         this.settingsPanel.innerHTML = `
-            <div class="bella-settings-header">
+            <div class="reze-settings-header">
                 <h4>Chat Settings / 채팅 설정</h4>
-                <button class="bella-settings-close">
+                <button class="reze-settings-close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="bella-settings-content">
-                <div class="bella-setting-group">
+            <div class="reze-settings-content">
+                <div class="reze-setting-group">
                     <label>AI Service Provider / AI 서비스 제공자</label>
-                    <select class="bella-provider-select">
+                    <select class="reze-provider-select">
                         <option value="local">Local Model / 로컬 모델</option>
                         <option value="openai">OpenAI GPT</option>
                         <option value="qwen">Qwen / 통의천문</option>
@@ -111,21 +111,21 @@ class ChatInterface {
                         <option value="glm">Zhipu AI / 지푸 AI</option>
                     </select>
                 </div>
-                <div class="bella-setting-group bella-api-key-group" style="display: none;">
+                <div class="reze-setting-group reze-api-key-group" style="display: none;">
                     <label>API Key / API 키</label>
-                    <input type="password" class="bella-api-key-input" placeholder="Enter API Key / API 키 입력">
-                    <button class="bella-api-key-save">Save / 저장</button>
+                    <input type="password" class="reze-api-key-input" placeholder="Enter API Key / API 키 입력">
+                    <button class="reze-api-key-save">Save / 저장</button>
                 </div>
-                <div class="bella-setting-group">
+                <div class="reze-setting-group">
                     <label>Chat Mode / 채팅 모드</label>
-                    <select class="bella-mode-select">
+                    <select class="reze-mode-select">
                         <option value="casual">Casual Chat / 가벼운 대화</option>
                         <option value="assistant">Smart Assistant / 스마트 어시스턴트</option>
                         <option value="creative">Creative Partner / 창의적 파트너</option>
                     </select>
                 </div>
-                <div class="bella-setting-group">
-                    <button class="bella-clear-history">Clear Chat History / 채팅 기록 삭제</button>
+                <div class="reze-setting-group">
+                    <button class="reze-clear-history">Clear Chat History / 채팅 기록 삭제</button>
                 </div>
             </div>
         `;
@@ -141,12 +141,12 @@ class ChatInterface {
         });
 
         // Minimize button / 최소화 버튼
-        this.chatContainer.querySelector('.bella-minimize-btn').addEventListener('click', () => {
+        this.chatContainer.querySelector('.reze-minimize-btn').addEventListener('click', () => {
             this.hide();
         });
 
         // Settings button / 설정 버튼
-        this.chatContainer.querySelector('.bella-settings-btn').addEventListener('click', () => {
+        this.chatContainer.querySelector('.reze-settings-btn').addEventListener('click', () => {
             this.toggleSettings();
         });
 
@@ -175,13 +175,13 @@ class ChatInterface {
     // Bind settings panel events / 설정 패널 이벤트 바인딩
     bindSettingsEvents() {
         // Close settings panel / 설정 패널 닫기
-        this.settingsPanel.querySelector('.bella-settings-close').addEventListener('click', () => {
+        this.settingsPanel.querySelector('.reze-settings-close').addEventListener('click', () => {
             this.hideSettings();
         });
 
         // Provider selection / 제공자 선택
-        const providerSelect = this.settingsPanel.querySelector('.bella-provider-select');
-        const apiKeyGroup = this.settingsPanel.querySelector('.bella-api-key-group');
+        const providerSelect = this.settingsPanel.querySelector('.reze-provider-select');
+        const apiKeyGroup = this.settingsPanel.querySelector('.reze-api-key-group');
         
         providerSelect.addEventListener('change', (e) => {
             const provider = e.target.value;
@@ -196,9 +196,9 @@ class ChatInterface {
         });
 
         // Save API key / API 키 저장
-        this.settingsPanel.querySelector('.bella-api-key-save').addEventListener('click', () => {
+        this.settingsPanel.querySelector('.reze-api-key-save').addEventListener('click', () => {
             const provider = providerSelect.value;
-            const apiKey = this.settingsPanel.querySelector('.bella-api-key-input').value;
+            const apiKey = this.settingsPanel.querySelector('.reze-api-key-input').value;
             
             if (apiKey.trim()) {
                 this.onAPIKeySave?.(provider, apiKey.trim());
@@ -207,7 +207,7 @@ class ChatInterface {
         });
 
         // Clear chat history / 채팅 기록 삭제
-        this.settingsPanel.querySelector('.bella-clear-history').addEventListener('click', () => {
+        this.settingsPanel.querySelector('.reze-clear-history').addEventListener('click', () => {
             this.clearMessages();
             this.onClearHistory?.();
             this.hideSettings();
@@ -216,7 +216,7 @@ class ChatInterface {
 
     // Add welcome message / 환영 메시지 추가
     addWelcomeMessage() {
-        this.addMessage('assistant', 'Hello! I\'m Bella, your AI companion. Nice to meet you! What would you like to talk about? / 안녕하세요! 저는 벨라, 당신의 AI 파트너입니다. 만나서 반가워요! 무엇에 대해 이야기하고 싶으세요?', true);
+        this.addMessage('assistant', 'Hello! I\'m Reze, your AI companion. Nice to meet you! What would you like to talk about? / 안녕하세요! 저는 레제, 당신의 AI 파트너입니다. 만나서 반가워요! 무엇에 대해 이야기하고 싶으세요?', true);
     }
 
     // Toggle chat window visibility / 채팅 창 표시/숨기기 토글
@@ -300,10 +300,10 @@ class ChatInterface {
     // Add message to chat interface / 채팅 인터페이스에 메시지 추가
     addMessage(role, content, isWelcome = false) {
         const messageElement = document.createElement('div');
-        messageElement.className = `bella-message bella-message-${role}`;
+        messageElement.className = `reze-message reze-message-${role}`;
         
         if (isWelcome) {
-            messageElement.classList.add('bella-welcome-message');
+            messageElement.classList.add('reze-welcome-message');
         }
 
         const timestamp = new Date().toLocaleTimeString('ko-KR', {
@@ -312,12 +312,12 @@ class ChatInterface {
         });
 
         messageElement.innerHTML = `
-            <div class="bella-message-avatar">
+            <div class="reze-message-avatar">
                 ${role === 'user' ? '👤' : '💝'}
             </div>
-            <div class="bella-message-content">
-                <div class="bella-message-text">${this.formatMessage(content)}</div>
-                <div class="bella-message-time">${timestamp}</div>
+            <div class="reze-message-content">
+                <div class="reze-message-text">${this.formatMessage(content)}</div>
+                <div class="reze-message-time">${timestamp}</div>
             </div>
         `;
 
@@ -338,7 +338,7 @@ class ChatInterface {
 
         // Add animation effect / 애니메이션 효과 추가
         setTimeout(() => {
-            messageElement.classList.add('bella-message-appear');
+            messageElement.classList.add('reze-message-appear');
         }, 10);
     }
 
@@ -353,18 +353,18 @@ class ChatInterface {
 
     // Show typing indicator / 타이핑 표시기 표시
     showTypingIndicator() {
-        const existingIndicator = this.messageContainer.querySelector('.bella-typing-indicator');
+        const existingIndicator = this.messageContainer.querySelector('.reze-typing-indicator');
         if (existingIndicator) return;
 
         const typingElement = document.createElement('div');
-        typingElement.className = 'bella-typing-indicator';
+        typingElement.className = 'reze-typing-indicator';
         typingElement.innerHTML = `
-            <div class="bella-message-avatar">💝</div>
-            <div class="bella-message-content">
-                <div class="bella-typing-dots">
-                    <span class="bella-typing-dot"></span>
-                    <span class="bella-typing-dot"></span>
-                    <span class="bella-typing-dot"></span>
+            <div class="reze-message-avatar">💝</div>
+            <div class="reze-message-content">
+                <div class="reze-typing-dots">
+                    <span class="reze-typing-dot"></span>
+                    <span class="reze-typing-dot"></span>
+                    <span class="reze-typing-dot"></span>
                 </div>
             </div>
         `;
@@ -374,13 +374,13 @@ class ChatInterface {
         
         // Add display animation / 표시 애니메이션 추가
         setTimeout(() => {
-            typingElement.classList.add('bella-typing-show');
+            typingElement.classList.add('reze-typing-show');
         }, 10);
     }
 
     // Hide typing indicator / 타이핑 표시기 숨기기
     hideTypingIndicator() {
-        const indicator = this.messageContainer.querySelector('.bella-typing-indicator');
+        const indicator = this.messageContainer.querySelector('.reze-typing-indicator');
         if (indicator) {
             this.messageContainer.removeChild(indicator);
         }
@@ -409,17 +409,17 @@ class ChatInterface {
     // Show notification / 알림 표시
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
-        notification.className = `bella-notification bella-notification-${type}`;
+        notification.className = `reze-notification bella-notification-${type}`;
         notification.textContent = message;
         
         document.body.appendChild(notification);
         
         setTimeout(() => {
-            notification.classList.add('bella-notification-show');
+            notification.classList.add('reze-notification-show');
         }, 10);
         
         setTimeout(() => {
-            notification.classList.remove('bella-notification-show');
+            notification.classList.remove('reze-notification-show');
             setTimeout(() => {
                 document.body.removeChild(notification);
             }, 300);
