@@ -36,7 +36,7 @@ class ChatInterface {
         this.chatContainer.innerHTML = `
             <div class="reze-chat-header">
                 <div class="reze-chat-title">
-                    <div class="reze-avatar">💝</div>
+                    <div class="reze-avatar"></div>
                     <div class="reze-title-text">
                         <h3>reze / 레제</h3>
                         <span class="bella-status">Online / 온라인</span>

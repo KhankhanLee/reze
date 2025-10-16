@@ -46,7 +46,7 @@ class RezeAI {
             if (models.length > 0) {
                 console.log('Available Ollama models:', models.map(m => m.name).join(', '));
             } else {
-                console.log('⚠️  No Ollama models installed. Please run: ollama pull llama3.2:1b');
+                console.log('No Ollama models installed. Please run: ollama pull llama3.2:1b');
             }
         } else {
             console.log('Ollama not available. Falling back to transformers.js...');
@@ -69,14 +69,18 @@ class RezeAI {
         
         // Attempt to load ASR model (voice recognition)
         try {
-            console.log('Loading ASR model...');
-            const modelPath = 'Xenova/whisper-tiny';
-            const tokenizer = await AutoTokenizer.from_pretrained(modelPath);
-            const model = await AutoModelForSpeechSeq2Seq.from_pretrained(modelPath);
-            this.asr = await pipeline('automatic-speech-recognition', model, { tokenizer });
-            console.log('ASR model loaded successfully.');
+            console.log('Loading ASR model from local path...');
+            // Use local path to avoid Hugging Face API calls
+            const modelPath = '/models/Xenova/whisper-tiny';
+            this.asr = await pipeline('automatic-speech-recognition', modelPath, {
+                quantized: true,
+                revision: 'main',
+                local_files_only: false
+            });
+            console.log('ASR model loaded successfully from:', modelPath);
         } catch (error) {
             console.warn('ASR model failed to load, voice recognition will be disabled:', error);
+            console.warn('Error details:', error.message);
             // ASR loading failure doesn't affect chat functionality
             this.asr = null;
         }

@@ -1,12 +1,64 @@
-// ollamaAPI.js - Ollama Local LLM Integration
-// Ollama를 통한 로컬 LLM 통합
+// ollamaAPI.js - Ollama Local LLM Integration with RAG
+// Ollama를 통한 로컬 LLM 통합 + RAG 시스템
 
 class OllamaAPI {
     constructor() {
         this.baseURL = 'http://localhost:11434/api';
-        this.model = 'llama3.2:1b'; // 기본 모델 (1B 파라미터, 빠르고 효율적)
+        this.model = 'reze'; // 레제 커스텀 모델 (Modelfile.reze로 생성)
+        // 대체 모델: 'llama3.2:1b', 'llama3.2:3b', 'gemma2:2b'
         this.conversationHistory = [];
         this.maxHistoryLength = 10;
+        
+        // RAG 지식 베이스
+        this.knowledge = '';
+        this.loadKnowledge();
+    }
+
+    // 지식 베이스 로드
+    async loadKnowledge() {
+        try {
+            const response = await fetch('/reze_knowledge.txt');
+            this.knowledge = await response.text();
+            console.log('레제 지식 베이스 로드 완료');
+        } catch (error) {
+            console.warn('지식 베이스 로드 실패:', error);
+            this.knowledge = '';
+        }
+    }
+
+    // RAG 검색 - 관련 정보 찾기
+    searchKnowledge(query) {
+        if (!this.knowledge) return '';
+        
+        const keywords = query.toLowerCase().split(' ').filter(k => k.length > 1);
+        const lines = this.knowledge.split('\n');
+        const relevantLines = [];
+        
+        for (const line of lines) {
+            const lowerLine = line.toLowerCase();
+            for (const keyword of keywords) {
+                if (lowerLine.includes(keyword)) {
+                    relevantLines.push(line);
+                    break;
+                }
+            }
+        }
+        
+        return relevantLines.slice(0, 10).join('\n');
+    }
+
+    // 프롬프트에 지식 추가
+    enhancePrompt(userMessage) {
+        const relevantInfo = this.searchKnowledge(userMessage);
+        
+        console.log('RAG 검색 결과:', relevantInfo ? `${relevantInfo.length}자` : '없음');
+        
+        if (!relevantInfo) {
+            return userMessage;
+        }
+        
+        console.log('RAG 강화된 프롬프트 생성');
+        return `[참고 정보]\n${relevantInfo}\n\n[질문]\n${userMessage}`;
     }
 
     // Ollama 서버 상태 확인 | Check if Ollama is running
@@ -82,8 +134,11 @@ class OllamaAPI {
 기억해: 너는 레제야 - 신비롭고, 매력적이고, 쿨해. 짧게만 대답해. 한국어로 자연스럽게 대화해.`;
     }
 
-    // Ollama로 채팅 | Chat with Ollama
+    // Ollama로 채팅 | Chat with Ollama (with RAG)
     async chat(userMessage) {
+        // RAG로 프롬프트 강화
+        const enhancedMessage = this.enhancePrompt(userMessage);
+        
         // 시스템 프롬프트와 대화 기록 구성 | Build messages with system prompt
         const messages = [
             {
@@ -93,7 +148,7 @@ class OllamaAPI {
             ...this.conversationHistory,
             {
                 role: 'user',
-                content: userMessage
+                content: enhancedMessage
             }
         ];
 

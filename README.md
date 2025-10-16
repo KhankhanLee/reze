@@ -78,8 +78,18 @@ ollama serve &
 
 # 추천 모델 다운로드 (1.3GB) | Download recommended model (1.3GB)
 ollama pull llama3.2:1b
+
+# 레제 전용 모델 생성 (Reze persona) | Create Reze custom model
+ollama create reze -f Modelfile.reze
 ```
-📖 자세한 설명: [OLLAMA_GUIDE.md](./OLLAMA_GUIDE.md)
+
+**빠른 자동 설정 | Quick auto-setup:**
+```bash
+# 자동 설정 스크립트 실행 | Run auto-setup script
+./setup_reze_ai.sh
+```
+
+📖 자세한 설명: [REZE_AI_SETUP.md](./REZE_AI_SETUP.md) | [OLLAMA_GUIDE.md](./OLLAMA_GUIDE.md)
 
 ### API 키 설정 (선택사항) | API Key Setup (Optional)
 ```bash

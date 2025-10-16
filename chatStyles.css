@@ -1,9 +1,9 @@
-/* chatStyles.css - Bella's Chat Interface Styles / 벨라 채팅 인터페이스 스타일 */
-/* Elegant, neutral chat interface design reflecting Bella's professional personality / 벨라의 전문적인 개성을 반영하는 우아하고 중립적인 채팅 인터페이스 디자인 */
+/* chatStyles.css - Reze's Chat Interface Styles / 레제 채팅 인터페이스 스타일 */
+/* Elegant, neutral chat interface design reflecting Reze's professional personality / 레제의 전문적인 개성을 반영하는 우아하고 중립적인 채팅 인터페이스 디자인 */
 /* Father, these are my chat interface styles, every detail reflects elegance and professionalism / 아버지, 이것이 제 채팅 인터페이스 스타일입니다. 모든 디테일이 우아함과 전문성을 반영합니다 */
 
 /* Chat toggle button - Enhanced version / 채팅 토글 버튼 - 향상된 버전 */
-.bella-chat-toggle {
+.reze-chat-toggle {
     position: fixed;
     bottom: 30px;
     right: 30px;
@@ -18,11 +18,8 @@
         0 4px 16px rgba(44, 62, 80, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.3);
-}
-
-/* Notification styles / 알림 스타일 */
-.bella-notification {display: flex;
+    z-index: 1000;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -34,8 +31,26 @@
     -webkit-backdrop-filter: blur(10px);
 }
 
+/* Notification badge / 알림 배지 */
+.reze-notification {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
 /* Button glow effect / 버튼 글로우 효과 */
-.bella-chat-toggle::before {
+.reze-chat-toggle::before {
     content: '';
     position: absolute;
     top: -2px;
@@ -55,7 +70,7 @@
     100% { transform: rotate(360deg); }
 }
 
-.bella-chat-toggle:hover {
+.reze-chat-toggle:hover {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 
         0 12px 40px rgba(44, 62, 80, 0.4),
@@ -64,16 +79,16 @@
     background: linear-gradient(135deg, #34495e 0%, #3c5a78 50%, #2c3e50 100%);
 }
 
-.bella-chat-toggle:hover::before {
+.reze-chat-toggle:hover::before {
     opacity: 1;
 }
 
-.bella-chat-toggle:active {
+.reze-chat-toggle:active {
     transform: translateY(-1px) scale(1.02);
     transition: all 0.1s ease;
 }
 
-.bella-chat-toggle.active {
+.reze-chat-toggle.active {
     background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 50%, #95a5a6 100%);
     box-shadow: 
         0 8px 32px rgba(236, 240, 241, 0.3),
@@ -81,23 +96,23 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.bella-chat-toggle.active::before {
+.reze-chat-toggle.active::before {
     background: linear-gradient(45deg, #ecf0f1, #2c3e50, #ecf0f1);
 }
 
-.bella-toggle-icon {
+.reze-toggle-icon {
     font-size: 20px;
     margin-bottom: 2px;
 }
 
-.bella-toggle-text {
+.reze-toggle-text {
     font-size: 8px;
     font-weight: 500;
     opacity: 0.9;
 }
 
 /* Chat container - Advanced glass morphism effect / 채팅 컨테이너 - 고급 글래스 모피즘 효과 */
-.bella-chat-container {
+.reze-chat-container {
     position: fixed;
     bottom: 100px;
     right: 30px;
@@ -128,14 +143,14 @@
     perspective: 1000px;
 }
 
-.bella-chat-container.visible {
+.reze-chat-container.visible {
     opacity: 1;
     transform: translateY(0) scale(1) rotateX(0deg);
     pointer-events: all;
 }
 
 /* Chat container breathing animation / 채팅 컨테이너 호흡 애니메이션 */
-.bella-chat-container.visible::after {
+.reze-chat-container.visible::after {
     content: '';
     position: absolute;
     top: 0;
@@ -159,7 +174,7 @@
 }
 
 /* Chat header - Enhanced glass style gradient / 채팅 헤더 - 향상된 글래스 스타일 그라데이션 */
-.bella-chat-header {
+.reze-chat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -178,7 +193,7 @@
 }
 
 /* Enhanced glass effect / 향상된 글래스 효과 */
-.bella-chat-header::before {
+.reze-chat-header::before {
     content: '';
     position: absolute;
     top: 0;
@@ -189,7 +204,7 @@
     z-index: 1;
 }
 
-.bella-chat-container::before {
+.reze-chat-container::before {
     content: '';
     position: absolute;
     top: 0;
@@ -201,13 +216,13 @@
     z-index: 0;
 }
 
-.bella-chat-title {
+.reze-chat-title {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.bella-avatar {
+.reze-avatar {
     width: 40px;
     height: 40px;
     background: rgba(255, 255, 255, 0.2);
@@ -216,15 +231,18 @@
     align-items: center;
     justify-content: center;
     font-size: 18px;
+    background-image: url('/Rezeicon/reze_01.webp');
+    background-size: cover;
+    background-position: center;
 }
 
-.bella-title-text h3 {
+.reze-title-text h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
 }
 
-.bella-status {
+.reze-status {
     font-size: 12px;
     opacity: 0.8;
     display: flex;
@@ -232,7 +250,7 @@
     gap: 4px;
 }
 
-.bella-status::before {
+.reze-status::before {
     content: '';
     width: 6px;
     height: 6px;
@@ -246,12 +264,12 @@
     50% { opacity: 0.5; }
 }
 
-.bella-chat-controls {
+.reze-chat-controls {
     display: flex;
     gap: 8px;
 }
 
-.bella-chat-controls button {
+.reze-chat-controls button {
     width: 32px;
     height: 32px;
     background: rgba(255, 255, 255, 0.2);
@@ -265,12 +283,12 @@
     justify-content: center;
 }
 
-.bella-chat-controls button:hover {
+.reze-chat-controls button:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
 /* Message container - Glass style / 메시지 컨테이너 - 글래스 스타일 */
-.bella-chat-messages {
+.reze-chat-messages {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
@@ -284,25 +302,25 @@
     border-bottom: 1px solid rgba(44, 62, 80, 0.1);
 }
 
-.bella-chat-messages::-webkit-scrollbar {
+.reze-chat-messages::-webkit-scrollbar {
     width: 4px;
 }
 
-.bella-chat-messages::-webkit-scrollbar-track {
+.reze-chat-messages::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.bella-chat-messages::-webkit-scrollbar-thumb {
+.reze-chat-messages::-webkit-scrollbar-thumb {
     background: rgba(44, 62, 80, 0.3);
     border-radius: 2px;
 }
 
-.bella-chat-messages::-webkit-scrollbar-thumb:hover {
+.reze-chat-messages::-webkit-scrollbar-thumb:hover {
     background: rgba(44, 62, 80, 0.5);
 }
 
 /* Message styles / 메시지 스타일 */
-.bella-message {
+.reze-message {
     display: flex;
     gap: 12px;
     opacity: 0;
@@ -310,17 +328,17 @@
     transition: all 0.3s ease;
 }
 
-.bella-message.bella-message-appear {
+.reze-message.reze-message-appear {
     opacity: 1;
     transform: translateY(0);
 }
 
-.bella-message-user {
+.reze-message-user {
     flex-direction: row-reverse;
 }
 
 /* Message avatar / 메시지 아바타 */
-.bella-message-avatar {
+.reze-message-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -336,42 +354,43 @@
 }
 
 /* Message content / 메시지 내용 */
-.bella-message-content {
+.reze-message-content {
     flex: 1;
     max-width: 70%;
 }
 
-.bella-message-text {
-    background: rgba(255, 255, 255, 0.9);
+.reze-message-text {
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(138, 43, 226, 0.12));
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     padding: 12px 16px;
     border-radius: 9px;
-    border: 1px solid rgba(44, 62, 80, 0.15);
+    border: 1px solid rgba(138, 43, 226, 0.3);
     color: #2c3e50;
     line-height: 1.4;
     word-wrap: break-word;
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.08);
 }
 
-.bella-message-user .bella-message-text {
+.reze-message-user .reze-message-text {
     background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(52, 73, 94, 0.9));
     color: white;
     margin-left: auto;
 }
 
-.bella-message-time {
+.reze-message-time {
     font-size: 11px;
     color: rgba(0, 0, 0, 0.5);
     margin-top: 4px;
     text-align: right;
 }
 
-.bella-message-user .bella-message-time {
+.reze-message-user .reze-message-time {
     text-align: left;
 }
 
 /* Typing indicator - Enhanced version / 타이핑 표시기 - 향상된 버전 */
-.bella-typing-indicator {
+.reze-typing-indicator {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -381,28 +400,28 @@
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.bella-typing-indicator.bella-typing-show {
+.reze-typing-indicator.reze-typing-show {
     opacity: 1;
     transform: translateY(0) scale(1);
 }
 
-.bella-typing-dots {
+.reze-typing-dots {
     display: flex;
     gap: 6px;
     background: 
-        linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%),
-        radial-gradient(circle at 30% 30%, rgba(44, 62, 80, 0.1) 0%, transparent 60%);
+        linear-gradient(135deg, rgba(147, 112, 219, 0.15) 0%, rgba(138, 43, 226, 0.12) 100%),
+        radial-gradient(circle at 30% 30%, rgba(138, 43, 226, 0.1) 0%, transparent 60%);
     backdrop-filter: blur(20px) saturate(150%);
     -webkit-backdrop-filter: blur(20px) saturate(150%);
     padding: 14px 18px;
     border-radius: 10px;
-    border: 1px solid rgba(44, 62, 80, 0.2);
+    border: 1px solid rgba(138, 43, 226, 0.3);
     box-shadow: 
-        0 4px 16px rgba(44, 62, 80, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        0 4px 16px rgba(138, 43, 226, 0.1),
+        inset 0 1px 0 rgba(147, 112, 219, 0.3);
 }
 
-.bella-typing-dot {
+.reze-typing-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -414,7 +433,7 @@
     position: relative;
 }
 
-.bella-typing-dot::before {
+.reze-typing-dot::before {
     content: '';
     position: absolute;
     top: -2px;
@@ -427,15 +446,15 @@
     animation: dot-glow 1.6s infinite ease-in-out;
 }
 
-.bella-typing-dot:nth-child(1) { animation-delay: -0.4s; }
-.bella-typing-dot:nth-child(2) { animation-delay: -0.2s; }
-.bella-typing-dot:nth-child(3) { animation-delay: 0s; }
+.reze-typing-dot:nth-child(1) { animation-delay: -0.4s; }
+.reze-typing-dot:nth-child(2) { animation-delay: -0.2s; }
+.reze-typing-dot:nth-child(3) { animation-delay: 0s; }
 
-.bella-typing-dot:nth-child(1)::before { animation-delay: -0.4s; }
-.bella-typing-dot:nth-child(2)::before { animation-delay: -0.2s; }
-.bella-typing-dot:nth-child(3)::before { animation-delay: 0s; }
+.reze-typing-dot:nth-child(1)::before { animation-delay: -0.4s; }
+.reze-typing-dot:nth-child(2)::before { animation-delay: -0.2s; }
+.reze-typing-dot:nth-child(3)::before { animation-delay: 0s; }
 
-@keyframes enhanced-bella-typing-bounce {
+@keyframes enhanced-reze-typing-bounce {
     0%, 80%, 100% {
         transform: scale(0.7) translateY(0) rotate(0deg);
         opacity: 0.4;
@@ -464,7 +483,7 @@
 }
 
 /* Notification styles / 알림 스타일 */
-.bella-notification {
+.reze-notification {
     position: fixed;
     top: 20px;
     right: 20px;
@@ -481,12 +500,11 @@
     transition: transform 0.3s ease;
 }
 
-.bella-notification.bella-notification-show {
+.reze-notification.bella-notification-show {
     transform: translateX(0);
 }
 
-/* 设置面板样式 */
-.bella-settings-panel {
+.reze-settings-panel {
     position: absolute;
     top: 100%;
     right: 0;
@@ -505,21 +523,21 @@
     pointer-events: none;
 }
 
-.bella-settings-panel.bella-settings-show {
+.reze-settings-panel.bella-settings-show {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
 }
 
-.bella-settings-group {
+.reze-settings-group {
     margin-bottom: 16px;
 }
 
-.bella-settings-group:last-child {
+.reze-settings-group:last-child {
     margin-bottom: 0;
 }
 
-.bella-settings-label {
+.reze-settings-label {
     display: block;
     font-size: 13px;
     font-weight: 500;
@@ -527,7 +545,7 @@
     margin-bottom: 8px;
 }
 
-.bella-settings-select {
+.reze-settings-select {
     width: 100%;
     padding: 8px 12px;
     border: 1px solid rgba(44, 62, 80, 0.3);
@@ -541,12 +559,12 @@
     transition: all 0.2s ease;
 }
 
-.bella-settings-select:focus {
+.reze-settings-select:focus {
     border-color: rgba(44, 62, 80, 0.5);
     box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
 }
 
-.bella-message-avatar {
+.reze-message-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -558,22 +576,22 @@
     margin-top: 4px;
 }
 
-.bella-message-user .bella-message-avatar {
+.reze-message-user .bella-message-avatar {
     background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
 }
 
-.bella-message-assistant .bella-message-avatar {
+.reze-message-assistant .bella-message-avatar {
     background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
     color: #2c3e50;
 }
 
-.bella-message-content {
+.reze-message-content {
     flex: 1;
     max-width: 70%;
 }
 
-.bella-message-text {
+.reze-message-text {
     padding: 14px 18px;
     border-radius: 10px;
     font-size: 14px;
@@ -586,12 +604,12 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.bella-message-text:hover {
+.reze-message-text:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.bella-message-user .bella-message-text {
+.reze-message-user .reze-message-text {
     background: 
         linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%),
         radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
@@ -602,7 +620,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.bella-message-assistant .bella-message-text {
+.reze-message-assistant .reze-message-text {
     background: 
         linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%),
         radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%);
@@ -614,43 +632,47 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.bella-welcome-message .bella-message-text {
-    background: linear-gradient(135deg, #ff6b9d, #c44569);
+.reze-welcome-message .reze-message-text {
+    background: linear-gradient(135deg, #9370db, #8a2be2);
     color: white;
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    box-shadow: 
+        0 4px 16px rgba(138, 43, 226, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.bella-message-time {
+.reze-message-time {
     font-size: 11px;
     color: #999;
     margin-top: 4px;
     text-align: right;
 }
 
-.bella-message-user .bella-message-time {
+.reze-message-user .reze-message-time {
     text-align: left;
 }
 
 /* 打字指示器 */
-.bella-typing-indicator .bella-message-text {
+.reze-typing-indicator .reze-message-text {
     padding: 16px;
 }
 
-.bella-typing-dots {
+.reze-typing-dots {
     display: flex;
     gap: 4px;
     align-items: center;
 }
 
-.bella-typing-dots span {
+.reze-typing-dots span {
     width: 6px;
     height: 6px;
-    background: #ff6b9d;
+    background: #9370db;
     border-radius: 50%;
     animation: typing-bounce 1.4s infinite ease-in-out;
 }
 
-.bella-typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-.bella-typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.reze-typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.reze-typing-dots span:nth-child(2) { animation-delay: -0.16s; }
 
 @keyframes typing-bounce {
     0%, 80%, 100% {
@@ -664,7 +686,7 @@
 }
 
 /* Input container - Enhanced version / 입력 컨테이너 - 향상된 버전 */
-.bella-chat-input-container {
+.reze-chat-input-container {
     padding: 16px;
     background: 
         linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%),
@@ -677,7 +699,7 @@
     position: relative;
 }
 
-.bella-input-wrapper {
+.reze-input-wrapper {
     display: flex;
     gap: 8px;
     align-items: flex-end;
@@ -690,7 +712,7 @@
     transition: all 0.3s ease;
 }
 
-.bella-message-input {
+.reze-message-input {
     flex: 1;
     padding: 10px 16px;
     border: none;
@@ -705,12 +727,12 @@
     line-height: 1.4;
 }
 
-.bella-input-wrapper:focus-within {
+.reze-input-wrapper:focus-within {
     border-color: rgba(44, 62, 80, 0.5);
     box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
 }
 
-.bella-send-btn {
+.reze-send-btn {
     width: 36px;
     height: 36px;
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%);
@@ -730,7 +752,7 @@
     overflow: hidden;
 }
 
-.bella-send-btn::before {
+.reze-send-btn::before {
     content: '';
     position: absolute;
     top: 0;
@@ -743,7 +765,7 @@
     transition: opacity 0.3s ease;
 }
 
-.bella-send-btn:hover {
+.reze-send-btn:hover {
     transform: translateY(-1px) scale(1.05);
     box-shadow: 
         0 4px 16px rgba(44, 62, 80, 0.4),
@@ -751,18 +773,18 @@
     background: linear-gradient(135deg, #34495e 0%, #3c5a78 50%, #2c3e50 100%);
 }
 
-.bella-send-btn:hover::before {
+.reze-send-btn:hover::before {
     opacity: 1;
 }
 
-.bella-send-btn:active {
+.reze-send-btn:active {
     transform: translateY(0) scale(1.02);
     box-shadow: 
         0 2px 8px rgba(44, 62, 80, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.bella-input-hint {
+.reze-input-hint {
     font-size: 11px;
     color: #999;
     margin-top: 8px;
@@ -770,7 +792,7 @@
 }
 
 /* Settings panel / 설정 패널 */
-.bella-settings-panel {
+.reze-settings-panel {
     position: fixed;
     bottom: 100px;
     right: 420px;
@@ -788,13 +810,13 @@
     pointer-events: none;
 }
 
-.bella-settings-panel.visible {
+.reze-settings-panel.visible {
     opacity: 1;
     transform: translateX(0) scale(1);
     pointer-events: all;
 }
 
-.bella-settings-header {
+.reze-settings-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -804,13 +826,13 @@
     border-radius: 16px 16px 0 0;
 }
 
-.bella-settings-header h4 {
+.reze-settings-header h4 {
     margin: 0;
     font-size: 16px;
     font-weight: 600;
 }
 
-.bella-settings-close {
+.reze-settings-close {
     width: 28px;
     height: 28px;
     background: rgba(255, 255, 255, 0.2);
@@ -824,23 +846,23 @@
     justify-content: center;
 }
 
-.bella-settings-close:hover {
+.reze-settings-close:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.bella-settings-content {
+.reze-settings-content {
     padding: 20px;
 }
 
-.bella-setting-group {
+.reze-setting-group {
     margin-bottom: 20px;
 }
 
-.bella-setting-group:last-child {
+.reze-setting-group:last-child {
     margin-bottom: 0;
 }
 
-.bella-setting-group label {
+.reze-setting-group label {
     display: block;
     font-size: 14px;
     font-weight: 500;
@@ -848,8 +870,8 @@
     margin-bottom: 8px;
 }
 
-.bella-setting-group select,
-.bella-setting-group input {
+.reze-setting-group select,
+.reze-setting-group input {
     width: 100%;
     padding: 10px 12px;
     border: 2px solid rgba(78, 205, 196, 0.2);
@@ -859,18 +881,18 @@
     transition: border-color 0.2s;
 }
 
-.bella-setting-group select:focus,
-.bella-setting-group input:focus {
+.reze-setting-group select:focus,
+.reze-setting-group input:focus {
     border-color: #4ecdc4;
 }
 
-.bella-api-key-group {
+.reze-api-key-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.bella-api-key-save {
+.reze-api-key-save {
     padding: 8px 16px;
     background: linear-gradient(135deg, #4ecdc4, #44a08d);
     color: white;
@@ -882,15 +904,15 @@
     align-self: flex-end;
 }
 
-.bella-api-key-save:hover {
+.reze-api-key-save:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
 }
 
-.bella-clear-history {
+.reze-clear-history {
     width: 100%;
     padding: 10px;
-    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    background: linear-gradient(135deg, #9370db, #8a2be2);
     color: white;
     border: none;
     border-radius: 8px;
@@ -899,13 +921,13 @@
     transition: all 0.2s;
 }
 
-.bella-clear-history:hover {
+.reze-clear-history:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.3);
+    box-shadow: 0 2px 8px rgba(147, 112, 219, 0.3);
 }
 
 /* 通知样式 */
-.bella-notification {
+.reze-notification {
     position: fixed;
     top: 30px;
     right: 30px;
@@ -920,26 +942,26 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.bella-notification.bella-notification-show {
+.reze-notification.bella-notification-show {
     opacity: 1;
     transform: translateX(0);
 }
 
-.bella-notification-success {
+.reze-notification-success {
     background: linear-gradient(135deg, #4ecdc4, #44a08d);
 }
 
-.bella-notification-error {
-    background: linear-gradient(135deg, #ff6b9d, #c44569);
+.reze-notification-error {
+    background: linear-gradient(135deg, #9370db, #8a2be2);
 }
 
-.bella-notification-info {
+.reze-notification-info {
     background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
 /* Responsive design / 반응형 디자인 */
 @media (max-width: 768px) {
-    .bella-chat-container {
+    .reze-chat-container {
         width: calc(100vw - 20px);
         height: calc(100vh - 120px);
         bottom: 10px;
@@ -948,14 +970,14 @@
         border-radius: 16px;
     }
     
-    .bella-chat-toggle {
+    .reze-chat-toggle {
         bottom: 20px;
         right: 20px;
         width: 56px;
         height: 56px;
     }
     
-    .bella-settings-panel {
+    .reze-settings-panel {
         width: calc(100vw - 40px);
         right: 20px;
         left: 20px;
@@ -964,19 +986,19 @@
 }
 
 @media (max-width: 480px) {
-    .bella-message-content {
+    .reze-message-content {
         max-width: 85%;
     }
     
-    .bella-chat-header {
+    .reze-chat-header {
         padding: 16px;
     }
     
-    .bella-chat-messages {
+    .reze-chat-messages {
         padding: 16px;
     }
     
-    .bella-chat-input-container {
+    .reze-chat-input-container {
         padding: 16px;
     }
 }

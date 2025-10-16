@@ -1,13 +1,15 @@
 {
-  "name": "bella",
+  "name": "reze",
   "version": "1.0.0",
-  "description": "Bella - A digital companion awakening to life. More than just a program, she's an entity designed to create emotional connections with users.",
+  "description": "Reze - 체인소맨의 레제를 모티프로 한 신비롭고 매력적인 AI 동반자 | A mysterious and charming AI companion inspired by Reze from Chainsaw Man",
   "main": "script.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server -p 8081 -c-1 --cors --headers='{\"Cross-Origin-Opener-Policy\": \"same-origin\", \"Cross-Origin-Embedder-Policy\": \"require-corp\"}'",
-    "download": "node download_models.js"
+    "download": "node download_models.js",
+    "setup-reze": "bash setup_reze_ai.sh",
+    "ollama": "ollama serve"
   },
   "repository": {
     "type": "git",
