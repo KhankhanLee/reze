@@ -31,24 +31,6 @@ class CloudAPIService {
                     'Authorization': ''
                 }
             },
-            // Baidu ERNIE Bot configuration
-            ernie: {
-                baseURL: 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions',
-                model: 'ERNIE-Bot-turbo',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                accessToken: ''
-            },
-            // Zhipu AI GLM configuration
-            glm: {
-                baseURL: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
-                model: 'glm-3-turbo',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': ''
-                }
-            }
         };
         
         this.currentProvider = 'gemini'; // Default to using Gemini

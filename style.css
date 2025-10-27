@@ -370,12 +370,12 @@ html, body {
 }
 
 .control-btn.primary {
-    background: rgba(255, 107, 157, 0.9);
+    background: rgba(192, 113, 237, 0.9);
     color: white;
 }
 
 .control-btn.primary:hover {
-    background: rgba(255, 107, 157, 1);
+    background: rgb(179, 2, 255);
     box-shadow: 0 6px 20px rgba(255, 107, 157, 0.3);
 }
 

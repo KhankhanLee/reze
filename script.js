@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         
         micButton.disabled = false;
-        transcriptDiv.textContent = 'Bella is ready. Please click the microphone to start a conversation. / 벨라가 준비되었습니다. 마이크를 클릭하여 대화를 시작하세요.';
+        transcriptDiv.textContent = 'Reze is ready. Please click the microphone to start a conversation. / 레제가 준비되었습니다. 마이크를 클릭하여 대화를 시작하세요.';
     } catch (error) {
-        console.error('Failed to initialize Bella AI:', error);
+        console.error('Failed to initialize Reze AI:', error);
         transcriptDiv.textContent = 'AI model loading failed, but chat interface is still available. / AI 모델 로드 실패, 하지만 채팅 인터페이스는 여전히 사용 가능합니다.';
         
         // Even if AI fails, provide basic chat functionality / AI가 실패해도 기본 채팅 기능 제공
@@ -105,12 +105,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Video list / 비디오 목록 //레제 얻고 수정해야함.
     const videoList = [
-        '视频资源/3D 建模图片制作.mp4',
-        '视频资源/jimeng-2025-07-16-1043-笑着优雅的左右摇晃，过一会儿手扶着下巴，保持微笑.mp4',
-        '视频资源/jimeng-2025-07-16-4437-比耶，然后微笑着优雅的左右摇晃.mp4',
-        '视频资源/生成加油视频.mp4',
-        '视频资源/生成跳舞视频.mp4',
-        '视频资源/负面/jimeng-2025-07-16-9418-双手叉腰，嘴巴一直在嘟囔，表情微微生气.mp4'
+        'rezevideo_1.mp4',
+        'rezevideo_2.mp4',
     ];
 
     // --- Video cross-fade playback function / 비디오 교차 페이드 재생 기능 ---
@@ -159,9 +155,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (chatToggleBtn) {
         chatToggleBtn.addEventListener('click', () => {
             if (chatInterface) {
-                console.log('聊天按钮被点击');
-                console.log('点击前聊天界面状态:', chatInterface.getVisibility());
-                console.log('点击前聊天容器类名:', chatInterface.chatContainer.className);
+                console.log('Chat button clicked');
+                console.log('Chat interface state before click:', chatInterface.getVisibility());
+                console.log('Chat container class name before click:', chatInterface.chatContainer.className);
                 
                 chatInterface.toggle();
                 
@@ -183,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         chatTestBtn.addEventListener('click', () => {
             if (chatInterface) {
                 const testMessages = [
-                    'Hello! I\'m Bella, nice to meet you! / 안녕하세요! 저는 벨라입니다, 만나서 반가워요!',
+                    'Hello! I\'m Reze, nice to meet you! / 안녕하세요! 저는 레제입니다, 만나서 반가워요!',
                     'Chat interface is working normally, all functions are ready. / 채팅 인터페이스가 정상 작동 중, 모든 기능이 준비되었습니다.',
                     'This is a test message to verify interface functionality. / 인터페이스 기능을 확인하는 테스트 메시지입니다.'
                 ];
@@ -210,7 +206,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (SpeechRecognition) {
         recognition = new SpeechRecognition();
         recognition.continuous = true; // Continuous recognition / 연속 인식
-        recognition.lang = 'zh-CN'; // Set language to Chinese / 언어를 중국어로 설정
+        recognition.lang = 'ko-KR'; // Set language to Korean / 언어를 한국어로 설정
         recognition.interimResults = true; // Get interim results / 임시 결과 가져오기
 
         recognition.onresult = async (event) => {

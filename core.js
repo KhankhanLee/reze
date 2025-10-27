@@ -70,12 +70,12 @@ class RezeAI {
         // Attempt to load ASR model (voice recognition)
         try {
             console.log('Loading ASR model from local path...');
-            // Use local path to avoid Hugging Face API calls
-            const modelPath = '/models/Xenova/whisper-tiny';
+            // Use relative path from web server root
+            const modelPath = 'Xenova/whisper-tiny';
             this.asr = await pipeline('automatic-speech-recognition', modelPath, {
                 quantized: true,
                 revision: 'main',
-                local_files_only: false
+                local_files_only: true
             });
             console.log('ASR model loaded successfully from:', modelPath);
         } catch (error) {
@@ -188,7 +188,7 @@ class RezeAI {
                 "Let me think about that...",
                 "That's... complicated.",
                 "Privet... what do you mean exactly?",
-                "Tell me more about that."
+                "Tell me more about that.",
             ];
             return rezeBackups[Math.floor(Math.random() * rezeBackups.length)];
         }

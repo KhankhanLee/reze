@@ -58,8 +58,9 @@
         <div class="status" id="status">작업 대기 중...</div>
     </div>
 
-    <script src="chatInterface.js"></script>
-    <script>
+    <script type="module">
+        import { ChatInterface } from './chatInterface.js';
+        
         let chatInterface;
         
         // 페이지 로드 완료 후 초기화

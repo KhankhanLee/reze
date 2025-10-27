@@ -5,7 +5,6 @@ class OllamaAPI {
     constructor() {
         this.baseURL = 'http://localhost:11434/api';
         this.model = 'reze'; // 레제 커스텀 모델 (Modelfile.reze로 생성)
-        // 대체 모델: 'llama3.2:1b', 'llama3.2:3b', 'gemma2:2b'
         this.conversationHistory = [];
         this.maxHistoryLength = 10;
         

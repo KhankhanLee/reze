@@ -6,7 +6,7 @@ class ChatInterface {
     constructor() {
         this.isVisible = false;
         this.messages = [];
-        this.maxMessages = 50; // Maximum 50 messages to display / 최대 50개 메시지 표시
+        this.maxMessages = 50; 
         this.chatContainer = null;
         this.messageContainer = null;
         this.inputContainer = null;
