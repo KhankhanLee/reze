@@ -69,10 +69,12 @@ html, body {
     object-fit: contain; /* Maintain video ratio, leave black bars / 비디오 비율 유지, 검은 테두리 남김 */
     opacity: 0;
     transition: opacity 0.2s ease-in-out; /* Cross-fade animation / 크로스 페이드 애니메이션 */
+    z-index: 0;
 }
 
 .bg-video.active {
     opacity: 1;
+    z-index: 1;
 }
 
 /* --- Content overlay / 콘텐츠 오버레이 --- */

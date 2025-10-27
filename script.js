@@ -105,13 +105,17 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Video list / 비디오 목록 //레제 얻고 수정해야함.
     const videoList = [
-        'rezevideo_1.mp4',
-        'rezevideo_2.mp4',
+        '영상자료/rezevideo_1.mp4',
+        '영상자료/rezevideo_2.mp4',
     ];
 
     // --- Video cross-fade playback function / 비디오 교차 페이드 재생 기능 ---
     function switchVideo() {
-        // 1. Select next video / 1. 다음 비디오 선택
+        console.log('Switching video...');
+        console.log('Current active video ID:', activeVideo.id);
+        console.log('Current inactive video ID:', inactiveVideo.id);
+
+        // 1. Select next video / 다음 비디오 선택
         const currentVideoSrc = activeVideo.querySelector('source').getAttribute('src');
         let nextVideoSrc = currentVideoSrc;
         while (nextVideoSrc === currentVideoSrc) {
@@ -119,30 +123,37 @@ document.addEventListener('DOMContentLoaded', async function() {
             nextVideoSrc = videoList[randomIndex];
         }
 
-        // 2. Set source of inactive video element / 2. 비활성 비디오 요소의 소스 설정
+        console.log('Next video source selected:', nextVideoSrc);
+
+        // 2. Set source of inactive video element / 비활성 비디오 요소의 소스 설정
         inactiveVideo.querySelector('source').setAttribute('src', nextVideoSrc);
         inactiveVideo.load();
 
-        // 3. When inactive video can play, perform switch / 3. 비활성 비디오가 재생 가능할 때 전환 수행
+        // 3. When inactive video can play, perform switch / 비활성 비디오가 재생 가능할 때 전환 수행
         inactiveVideo.addEventListener('canplaythrough', function onCanPlayThrough() {
-            // Ensure event only triggers once / 이벤트가 한 번만 트리거되도록 보장
+            console.log('canplaythrough event triggered for:', inactiveVideo.id);
             inactiveVideo.removeEventListener('canplaythrough', onCanPlayThrough);
+
+            console.log('Inactive video is ready to play:', inactiveVideo.id);
 
             // 4. Play new video / 4. 새 비디오 재생
             inactiveVideo.play().catch(error => {
-                console.error("Video play failed:", error);
+                console.error('Video play failed:', error);
             });
 
             // 5. Switch active class to trigger CSS transition / 5. active 클래스 전환하여 CSS 전환 트리거
             activeVideo.classList.remove('active');
             inactiveVideo.classList.add('active');
 
+            console.log('Switched active class. New active video ID:', inactiveVideo.id);
+
             // 6. Update roles / 6. 역할 업데이트
             [activeVideo, inactiveVideo] = [inactiveVideo, activeVideo];
 
             // Bind ended event for new activeVideo / 새 activeVideo에 종료 이벤트 바인딩
             activeVideo.addEventListener('ended', switchVideo, { once: true });
-        }, { once: true }); // Use { once: true } to ensure event is only handled once / { once: true }를 사용하여 이벤트가 한 번만 처리되도록 보장
+            console.log('ended event bound to new active video:', activeVideo.id);
+        }, { once: true });
     }
 
     // Initial startup / 초기 시작
@@ -312,7 +323,54 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
+    function attachVideoErrorHandlers() {
+        const allVideos = document.querySelectorAll('video');
+        allVideos.forEach(video => {
+            video.onerror = () => {
+                console.error(`Error loading video: ${video.id}`);
+                console.error(`Video source: ${video.src}`);
+            };
+        });
+    }
 
+    // Call this function on page load to attach error handlers
+    window.onload = () => {
+        attachVideoErrorHandlers();
+        console.log('Video error handlers attached.');
+    };
 
+    console.log('Initializing video elements...');
+    console.log('Video 1 ID:', video1.id, 'Source:', video1.querySelector('source').getAttribute('src'));
+    console.log('Video 2 ID:', video2.id, 'Source:', video2.querySelector('source').getAttribute('src'));
 
+    // Verify event binding
+    activeVideo.addEventListener('ended', () => {
+        console.log('ended event triggered for:', activeVideo.id);
+    });
+
+    console.log('Binding ended event to video elements...');
+    video1.addEventListener('ended', () => {
+        console.log('ended event triggered for video1');
+    });
+    video2.addEventListener('ended', () => {
+        console.log('ended event triggered for video2');
+    });
+
+    console.log('Checking video playback state...');
+    video1.addEventListener('play', () => {
+        console.log('Video 1 started playing');
+    });
+    video2.addEventListener('play', () => {
+        console.log('Video 2 started playing');
+    });
+    video1.addEventListener('pause', () => {
+        console.log('Video 1 paused');
+    });
+    video2.addEventListener('pause', () => {
+        console.log('Video 2 paused');
+    });
+
+    // Ensure Video 2 plays without sound
+    video2.muted = true;
+    console.log('Video 2 muted to ensure autoplay compatibility.');
 });
