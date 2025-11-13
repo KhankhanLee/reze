@@ -1,4 +1,4 @@
-// cloudAPI.js - Bella's Cloud AI Service Module
+// cloudAPI.js - Reze's Cloud AI Service Module
 // This module is responsible for communicating with various cloud-based AI model APIs to provide Bella with enhance
 import config from './config.js';
 

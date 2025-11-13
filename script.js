@@ -47,13 +47,41 @@ document.addEventListener('DOMContentLoaded', async function() {
             chatInterface.onMessageSend = async (message) => {
                 try {
                     chatInterface.showTypingIndicator();
-                    const response = await rezeAI.think(message);
+                    console.log('파인튜닝 모델로 요청 전송:', message);
+                    
+                    // 파인튜닝 모델 서버에 직접 요청
+                    const response = await fetch('http://localhost:3000/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: message })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`서버 오류: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    const aiResponse = data.response || '응답을 받지 못했습니다.';
+                    
+                    console.log('파인튜닝 모델 응답:', aiResponse);
+                    
                     chatInterface.hideTypingIndicator();
-                    chatInterface.addMessage('assistant', response);
+                    chatInterface.addMessage('assistant', aiResponse);
                 } catch (error) {
-                    console.error('AI processing error:', error);
+                    console.error('파인튜닝 모델 처리 오류:', error);
                     chatInterface.hideTypingIndicator();
-                    chatInterface.addMessage('assistant', 'Sorry, I\'m a bit confused right now. Please try again later... / 죄송합니다, 지금 좀 혼란스러워요. 나중에 다시 시도해주세요...');
+                    
+                    // 백업: 기존 RezeAI 사용
+                    try {
+                        console.log('백업 모델(RezeAI) 시도...');
+                        const backupResponse = await rezeAI.think(message);
+                        chatInterface.addMessage('assistant', backupResponse);
+                    } catch (backupError) {
+                        console.error('백업 모델도 실패:', backupError);
+                        chatInterface.addMessage('assistant', 'Sorry, I\'m having trouble thinking right now... / 죄송해, 지금 생각하는데 문제가 있어...');
+                    }
                 }
             };
         }
@@ -247,18 +275,36 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
 
                 try {
-                    // Let Reze think
+                    // Let Reze think with fine-tuned model
                     const thinkingText = document.createElement('p');
                     thinkingText.textContent = 'Reze is thinking... / Reze가 생각 중...';
                     thinkingText.style.color = '#888';
                     thinkingText.style.fontStyle = 'italic';
                     transcriptContainer.appendChild(thinkingText);
                     
-                    const response = await rezeAI.think(userText);
+                    console.log('음성 입력으로 파인튜닝 모델 요청:', userText);
+                    
+                    // 파인튜닝 모델 서버에 직접 요청
+                    const response = await fetch('http://localhost:3000/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: userText })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`서버 오류: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    const aiResponse = data.response || '응답을 받지 못했습니다.';
+                    
+                    console.log('음성용 파인튜닝 모델 응답:', aiResponse);
                     
                     transcriptContainer.removeChild(thinkingText);
                     const rezeText = document.createElement('p');
-                    rezeText.textContent = `Reze: ${response}`;
+                    rezeText.textContent = `Reze: ${aiResponse}`;
                     rezeText.style.color = '#ff6b9d';
                     rezeText.style.fontWeight = 'bold';
                     rezeText.style.marginTop = '10px';
@@ -266,7 +312,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
                     // If chat interface is open, also show in chat window / 채팅 인터페이스가 열려있으면 채팅 창에도 표시
                     if (chatInterface && chatInterface.getVisibility()) {
-                        chatInterface.addMessage('assistant', response);
+                        chatInterface.addMessage('assistant', aiResponse);
                     }
 
                     // TTS function temporarily disabled, will be activated in next phase / TTS 기능 임시 비활성화, 다음 단계에서 활성화 예정
@@ -278,9 +324,27 @@ document.addEventListener('DOMContentLoaded', async function() {
                     // audio.play();
 
                 } catch (error) {
-                    console.error('Reze AI processing error:', error);
+                    console.error('파인튜닝 모델 음성 처리 오류:', error);
+                    
+                    // 에러 표시 제거
+                    try {
+                        transcriptContainer.removeChild(thinkingText);
+                    } catch (e) {
+                        // thinkingText가 이미 제거된 경우 무시
+                    }
+                    
                     const errorText = document.createElement('p');
-                    const errorMsg = 'Reze encountered a problem, but she\'s still learning...';
+                    let errorMsg = 'Reze encountered a problem, but she\'s still learning...';
+                    
+                    // 백업: 기존 RezeAI 사용 시도
+                    try {
+                        console.log('음성용 백업 모델(RezeAI) 시도...');
+                        const backupResponse = await rezeAI.think(userText);
+                        errorMsg = backupResponse;
+                    } catch (backupError) {
+                        console.error('음성용 백업 모델도 실패:', backupError);
+                    }
+                    
                     errorText.textContent = errorMsg;
                     errorText.style.color = '#ff9999';
                     transcriptContainer.appendChild(errorText);

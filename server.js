@@ -4,6 +4,20 @@ import { exec } from 'child_process';
 const app = express();
 const port = 3000;
 
+// CORS 설정 - 프론트엔드에서 접근할 수 있도록 허용
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    
+    // OPTIONS 요청(preflight)에 대한 응답
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
+
 // JSON 요청 본문 파싱
 app.use(express.json());
 
