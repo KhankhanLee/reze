@@ -373,4 +373,66 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Ensure Video 2 plays without sound
     video2.muted = true;
     console.log('Video 2 muted to ensure autoplay compatibility.');
+
+    // --- Debugging: Detailed logs for video switching ---
+    function switchVideo() {
+        console.log('Switching video...');
+        console.log('Current active video ID:', activeVideo.id);
+        console.log('Current inactive video ID:', inactiveVideo.id);
+
+        // Debugging: Log current video sources and class lists
+        console.log('SwitchVideo Debugging:');
+        console.log('Active video ID:', activeVideo.id);
+        console.log('Inactive video ID:', inactiveVideo.id);
+        console.log('Active video source:', activeVideo.querySelector('source').getAttribute('src'));
+        console.log('Inactive video source:', inactiveVideo.querySelector('source').getAttribute('src'));
+        console.log('Active video classList:', activeVideo.classList);
+        console.log('Inactive video classList:', inactiveVideo.classList);
+
+        // 1. Select next video / 다음 비디오 선택
+        const currentVideoSrc = activeVideo.querySelector('source').getAttribute('src');
+        let nextVideoSrc = currentVideoSrc;
+        while (nextVideoSrc === currentVideoSrc) {
+            const randomIndex = Math.floor(Math.random() * videoList.length);
+            nextVideoSrc = videoList[randomIndex];
+        }
+
+        console.log('Next video source selected:', nextVideoSrc);
+
+        // 2. Set source of inactive video element / 비활성 비디오 요소의 소스 설정
+        inactiveVideo.querySelector('source').setAttribute('src', nextVideoSrc);
+        inactiveVideo.load();
+
+        // 3. When inactive video can play, perform switch / 비활성 비디오가 재생 가능할 때 전환 수행
+        inactiveVideo.addEventListener('canplaythrough', function onCanPlayThrough() {
+            console.log('canplaythrough event triggered for:', inactiveVideo.id);
+            inactiveVideo.removeEventListener('canplaythrough', onCanPlayThrough);
+
+            console.log('Inactive video is ready to play:', inactiveVideo.id);
+
+            // 4. Play new video / 4. 새 비디오 재생
+            inactiveVideo.play().catch(error => {
+                console.error('Video play failed:', error);
+            });
+
+            // 5. Switch active class to trigger CSS transition / 5. active 클래스 전환하여 CSS 전환 트리거
+            activeVideo.classList.remove('active');
+            inactiveVideo.classList.add('active');
+
+            console.log('Switched active class. New active video ID:', inactiveVideo.id);
+
+            // 6. Update roles / 6. 역할 업데이트
+            [activeVideo, inactiveVideo] = [inactiveVideo, activeVideo];
+
+            // Bind ended event for new activeVideo / 새 activeVideo에 종료 이벤트 바인딩
+            activeVideo.addEventListener('ended', switchVideo, { once: true });
+            console.log('ended event bound to new active video:', activeVideo.id);
+        }, { once: true });
+    }
+
+    // Fallback to trigger switchVideo after 5 seconds if ended event does not fire
+    setTimeout(() => {
+        console.log('Fallback: Forcing switchVideo after 5 seconds');
+        switchVideo();
+    }, 5000);
 });

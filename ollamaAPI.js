@@ -259,6 +259,31 @@ class OllamaAPI {
             throw error;
         }
     }
+
+    // 학습 요청 처리 | Handle training requests
+    async trainModel() {
+        const response = await fetch('http://localhost:3000/train', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            model: 'reze',
+            dataset: './dataset.json',
+            epochs: 5,
+            learning_rate: 0.001,
+        }),
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        console.error('Training failed:', error);
+        return;
+    }
+
+    const result = await response.json();
+    console.log('Training result:', result);
+    }
 }
 
 export default OllamaAPI;
